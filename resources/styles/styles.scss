@@ -1,0 +1,37 @@
+$navy-blue : darken(#66ccff,40%);
+$map-color : darken(#FFDEAD,5%);
+body{
+  .well{
+    text-align: center;
+  }
+  #map-well{
+    background-color: $map-color;
+  }
+  #score-board{
+    background-color:	#e6ffcc;
+  }
+  td{
+    background-color: #66ccff;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    width: 50px;
+    height: 50px;
+  }
+  .border{
+    background-color: $navy-blue;
+    color: peru;
+  }
+  // .ship{
+  //   background-color: #b3b3b3;
+  // }
+  .hit{
+    background-color: #ff3333;
+  }
+  .sunk{
+    background-color: DarkBlue;
+  }
+  .miss{
+    background-color: white;
+  }
+
+}
