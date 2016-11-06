@@ -4,64 +4,78 @@ $light-green: #e6ffcc;
 $water-blue: #66ccff;
 body{
   background-color: darken(#F0FFFF,70%);
-  .well{
-    text-align: center;
-  }
   #map-well{
     background-color: $map-color;
     float:left;
     width: 79%;
+    #game-board{
+      td{
+        background-color: $water-blue;
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        width: 50px;
+        height: 50px;
+        font-weight: bold;
+        .glyphicon{
+          color: hotpink;
+        }
+      }
+      .border{
+        background-color: $navy-blue;
+        color: limegreen;
+      }
+      // .ship{
+      //   background-color: #b3b3b3;
+      // }
+      .hit{
+        background-color: #ff3333;
+      }
+      .sunk{
+        background-color: DarkBlue;
+      }
+      .miss{
+        background-color: white;
+      }
+    }
   }
   #score-board{
+    text-align: center;
     background-color:	$light-green;
     float: right;
     width: 19%;
     height: 591px;
-  }
-  #ships{
-    margin-top: 20px;
-    padding: 10px 0px 0px 0px;
-    background-color: $navy-blue;
-    ul{
-      padding-left: 0px;
-      li{
-        font-size: 18px;
-        display:inline;
-        color: white;
-        width: 250px;
-        height: 50px;
+    .btn{
+      background-color: $map-color;
+      &:hover{
+        background-color: $navy-blue;
       }
     }
-  }
-  #game-board{
-    td{
-      background-color: $water-blue;
-      border-style: solid;
-      border-width: 1px 1px 1px 1px;
-      width: 50px;
-      height: 50px;
-      font-weight: bold;
-    }
-    .border{
+    #ships{
+      margin-top: 20px;
+      padding: 10px 0px 0px 0px;
       background-color: $navy-blue;
+      ul{
+        padding-left: 0px;
+        li{
+          font-size: 18px;
+          display:inline;
+          color: white;
+          width: 250px;
+          height: 50px;
+        }
+      }
     }
-    // .ship{
-    //   background-color: #b3b3b3;
-    // }
-    .hit{
-      background-color: #ff3333;
-    }
-    .sunk{
-      background-color: DarkBlue;
-    }
-    .miss{
-      background-color: white;
-    }
-  }
-  .btn{
-    background-color: $map-color;
-    &:hover{
-      background-color: $navy-blue;
+    #attempts{
+      background-color: #2F4F4F ;
+      ul{
+        margin: 0px;
+        padding-left: 0px;
+        li{
+          font-size: 18px;
+          color: white;
+          list-style-type: none;
+        }
+      }
     }
   }
   .navbar{

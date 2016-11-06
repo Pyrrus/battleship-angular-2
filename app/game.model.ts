@@ -71,7 +71,7 @@ export class Game{
       this.board[row][col].miss = true;
     }
     if (this.hitShip === 17) {
-      setTimeout(function(){ alert("you win"); }, .01);
+      setTimeout(function(){ alert("you win"); }, 1);
       this.gameCompleted = true;
     }
   }

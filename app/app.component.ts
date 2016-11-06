@@ -20,7 +20,7 @@ import { Game } from './game.model';
     <div class="well" id="map-well">
       <table id="game-board" align="center">
         <tr>
-          <td [class.border]="true"w></td>
+          <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
           <td align="center" *ngFor="let foo of dummyArray; let index = index"
           [class.border]="true"
           >
@@ -42,7 +42,7 @@ import { Game } from './game.model';
         </tr>
       </table>
     </div>
-    <div class= "well score-board" id="score-board">
+    <div class= "well" id="score-board">
     <div class="well" id="ships" align="center">
       <ul>
         <li>Carrier: {{ myGame.carrier}}</li>
@@ -52,9 +52,13 @@ import { Game } from './game.model';
         <li>Destroyer: {{ myGame.destroyer}}</li>
       </ul>
     </div>
-      <h3>Attempts:{{myGame.attempts}}</h3>
-      <h3>Total hits:{{myGame.hitShip}}</h3>
-      <h3>Total misses:{{myGame.attempts - myGame.hitShip}}</h3>
+    <div class="well" id="attempts">
+      <ul>
+        <li>Attempts: {{myGame.attempts}}</li>
+        <li>Total hits: {{myGame.hitShip}}</li>
+        <li>Total misses: {{myGame.attempts - myGame.hitShip}}</li>
+      </ul>
+    </div>
       <button class="btn" (click)="newGame()">New Game</button>
     </div>
   </div>
