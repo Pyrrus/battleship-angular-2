@@ -1,6 +1,9 @@
 $navy-blue : darken(#66ccff,40%);
 $map-color : darken(#FFDEAD,5%);
+$light-green: #e6ffcc;
+$water-blue: #66ccff;
 body{
+  background-color: darken(#F0FFFF,70%);
   .well{
     text-align: center;
   }
@@ -10,39 +13,68 @@ body{
     width: 79%;
   }
   #score-board{
-    background-color:	#e6ffcc;
+    background-color:	$light-green;
     float: right;
     width: 19%;
     height: 591px;
   }
-  td{
-    background-color: #66ccff;
-    border-style: solid;
-    border-width: 1px 1px 1px 1px;
-    width: 50px;
-    height: 50px;
-  }
-  .border{
+  #ships{
+    margin-top: 20px;
+    padding: 10px 0px 0px 0px;
     background-color: $navy-blue;
-    color: peru;
+    ul{
+      padding-left: 0px;
+      li{
+        font-size: 18px;
+        display:inline;
+        color: white;
+        width: 250px;
+        height: 50px;
+      }
+    }
   }
-  // .ship{
-  //   background-color: #b3b3b3;
-  // }
-  .hit{
-    background-color: #ff3333;
+  #game-board{
+    td{
+      background-color: $water-blue;
+      border-style: solid;
+      border-width: 1px 1px 1px 1px;
+      width: 50px;
+      height: 50px;
+      font-weight: bold;
+    }
+    .border{
+      background-color: $navy-blue;
+    }
+    // .ship{
+    //   background-color: #b3b3b3;
+    // }
+    .hit{
+      background-color: #ff3333;
+    }
+    .sunk{
+      background-color: DarkBlue;
+    }
+    .miss{
+      background-color: white;
+    }
   }
-  .sunk{
-    background-color: DarkBlue;
+  .btn{
+    background-color: $map-color;
+    &:hover{
+      background-color: $navy-blue;
+    }
   }
-  .miss{
-    background-color: white;
+  .navbar{
+    margin-top: 20px;
+    background-color: lighten($water-blue, 20%);
+    li{
+      font-weight: bold;
+      a{
+        color: $navy-blue;
+        &:visited{
+          color: $navy-blue;
+        }
+      }
+    }
   }
-  .navbar-header {
-    float: left;
-    padding: 15px;
-    text-align: center;
-    width: 100%;
-}
-.navbar-brand {float:none;}
 }

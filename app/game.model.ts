@@ -5,6 +5,11 @@ export class Game{
   public attempts:number = 0;
   public hitShip: number = 0;
   public gameCompleted: boolean = false;
+  public carrier: String = "not-sunk";
+  public battleship: String = "not-sunk";
+  public cruiser: String = "not-sunk";
+  public submarine: String = "not-sunk";
+  public destroyer: String = "not-sunk";
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -12,11 +17,11 @@ export class Game{
         this.board[i][j] = new Square();
       }
     }
-    this.generateShip(0,2); //2x1
-    this.generateShip(1,3); //3x1
-    this.generateShip(2,3); //3x1
-    this.generateShip(3,4); //4x1
-    this.generateShip(4,5); //5x1
+    this.generateShip(0,2); //Carrier
+    this.generateShip(1,3); //Battleship
+    this.generateShip(2,3); //Cruiser
+    this.generateShip(3,4); //Submarine
+    this.generateShip(4,5); //Destroyer
   }
 
   fire(selectedSquare:Square,row: number,col: number){
@@ -48,6 +53,17 @@ export class Game{
           sunkCounter == 5 && selectedSquare.id == 4) {
         for (let i = 0; i < sunkBuffer.length; i++) {
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
+        }
+        if (selectedSquare.id === 0) {
+          this.carrier = "sunk";
+        } else if(selectedSquare.id === 1) {
+          this.battleship = "sunk";
+        } else if(selectedSquare.id === 2) {
+          this.cruiser = "sunk";
+        } else if(selectedSquare.id === 3) {
+          this.submarine = "sunk";
+        } else {
+          this.destroyer = "sunk";
         }
       }
     }

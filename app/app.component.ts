@@ -18,7 +18,7 @@ import { Game } from './game.model';
       </div>
     </nav>
     <div class="well" id="map-well">
-      <table align="center">
+      <table id="game-board" align="center">
         <tr>
           <td [class.border]="true"w></td>
           <td align="center" *ngFor="let foo of dummyArray; let index = index"
@@ -43,6 +43,15 @@ import { Game } from './game.model';
       </table>
     </div>
     <div class= "well score-board" id="score-board">
+    <div class="well" id="ships" align="center">
+      <ul>
+        <li>Carrier: {{ myGame.carrier}}</li>
+        <li>Battleship: {{ myGame.battleship}}</li>
+        <li>Cruiser: {{ myGame.cruiser}}</li>
+        <li>Submarine: {{ myGame.submarine}}</li>
+        <li>Destroyer: {{ myGame.destroyer}}</li>
+      </ul>
+    </div>
       <h3>Attempts:{{myGame.attempts}}</h3>
       <h3>Total hits:{{myGame.hitShip}}</h3>
       <h3>Total misses:{{myGame.attempts - myGame.hitShip}}</h3>
