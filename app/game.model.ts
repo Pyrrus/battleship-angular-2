@@ -17,11 +17,11 @@ export class Game{
         this.board[i][j] = new Square();
       }
     }
-    this.generateShip(0,2); //Carrier
-    this.generateShip(1,3); //Battleship
+    this.generateShip(0,2); //Destroyer
+    this.generateShip(1,3); //Submarine
     this.generateShip(2,3); //Cruiser
-    this.generateShip(3,4); //Submarine
-    this.generateShip(4,5); //Destroyer
+    this.generateShip(3,4); //Battleship
+    this.generateShip(4,5); //Carrier
   }
 
   fire(selectedSquare:Square,row: number,col: number){
@@ -55,15 +55,15 @@ export class Game{
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
         }
         if (selectedSquare.id === 0) {
-          this.carrier = "sunk";
+          this.destroyer = "sunk";
         } else if(selectedSquare.id === 1) {
-          this.battleship = "sunk";
+          this.submarine = "sunk";
         } else if(selectedSquare.id === 2) {
           this.cruiser = "sunk";
         } else if(selectedSquare.id === 3) {
-          this.submarine = "sunk";
+          this.battleship = "sunk";
         } else {
-          this.destroyer = "sunk";
+          this.carrier = "sunk";
         }
       }
     }
