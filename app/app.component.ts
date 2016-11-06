@@ -6,9 +6,17 @@ import { Game } from './game.model';
   selector: 'my-app',
   template: `
   <div class="container">
-    <div class="well">
-      <h1>Battleship</h1>
-    </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="/" class="navbar-brand">Battleship</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href='/auth/github'>Sign in with Github!</a></li>
+          <li><a href='/logout'>Sign out</a></li>
+        </ul>
+      </div>
+    </nav>
     <div class="well" id="map-well">
       <table align="center">
         <tr>
@@ -35,17 +43,10 @@ import { Game } from './game.model';
       </table>
     </div>
     <div class= "well score-board" id="score-board">
-      <h1>Total clicks:{{myGame.attempts}}</h1>
-      <h1>Total hits:{{myGame.hitShip}}</h1>
-      <h1>Total misses:{{myGame.attempts - myGame.hitShip}}</h1>
+      <h3>Attempts:{{myGame.attempts}}</h3>
+      <h3>Total hits:{{myGame.hitShip}}</h3>
+      <h3>Total misses:{{myGame.attempts - myGame.hitShip}}</h3>
       <button class="btn" (click)="newGame()">New Game</button>
-      <ul>
-        <li><a href='/auth/github'>GitHub</a></li>
-        <li><a href='/logout'>logout</a></li>
-      </ul>
-      Bootstrap:<span class="glyphicon glyphicon-fast-backward"></span> <br />
-      <br />
-      Font-awesome: <i class="fa fa-address-book" aria-hidden="true"></i>
     </div>
   </div>
   `

@@ -6,9 +6,14 @@ body{
   }
   #map-well{
     background-color: $map-color;
+    float:left;
+    width: 79%;
   }
   #score-board{
     background-color:	#e6ffcc;
+    float: right;
+    width: 19%;
+    height: 591px;
   }
   td{
     background-color: #66ccff;
@@ -33,5 +38,11 @@ body{
   .miss{
     background-color: white;
   }
-
+  .navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+.navbar-brand {float:none;}
 }

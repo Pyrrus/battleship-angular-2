@@ -4,7 +4,7 @@ export class Game{
   public board = {};
   public attempts:number = 0;
   public hitShip: number = 0;
-
+  public gameCompleted: boolean = false;
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -20,6 +20,9 @@ export class Game{
   }
 
   fire(selectedSquare:Square,row: number,col: number){
+    if (this.gameCompleted) {
+      return;
+    }
     if (selectedSquare.hit === false && selectedSquare.miss === false){
       this.attempts++;
       if (selectedSquare.ship === true) {
@@ -53,6 +56,7 @@ export class Game{
     }
     if (this.hitShip === 17) {
       setTimeout(function(){ alert("you win"); }, .01);
+      this.gameCompleted = true;
     }
   }
 
