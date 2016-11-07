@@ -57,9 +57,9 @@ import {Observable} from 'rxjs/Rx';
           [class.carrierHit4]="myGame.board[row][col].hit && myGame.board[row][col].id == 4 && myGame.board[row][col].position == 4"
           [class.rotate]=" myGame.board[row][col].rotation"
           [class.ship]="myGame.board[row][col].ship"
-          [class.miss]="myGame.board[row][col].miss"
           [class.beautify-background]="true"
           >
+          <i style="font-size:49px;color:#ff6666;opacity:1!important;" *ngIf="myGame.board[row][col].miss" class="fa fa-times-circle" aria-hidden="true"></i>
           </td>
         </tr>
       </table>
