@@ -242,6 +242,8 @@ export class Game{
       for (let i = 0; i < size; i++) {
         this.board[randRow][randCol+i].ship = true;
         this.board[randRow][randCol+i].id = id;
+        this.board[randRow][randCol+i].position = i;
+        this.board[randRow][randCol+i].rotation = false;
       }
     }
     else {
@@ -262,6 +264,8 @@ export class Game{
       for (let i = 0; i < size; i++) {
         this.board[randRow+i][randCol].ship = true;
         this.board[randRow+i][randCol].id = id;
+        this.board[randRow+i][randCol].position = i;
+        this.board[randRow+i][randCol].rotation = true;
       }
     }
   }

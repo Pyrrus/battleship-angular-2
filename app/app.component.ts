@@ -21,7 +21,7 @@ import {Observable} from 'rxjs/Rx';
     </nav>
 
     <img id="banner" src="../resources/img/Banner.png">
-  
+
     <div class="well" id="map-well">
       <table id="game-board" align="center">
         <tr>
@@ -38,7 +38,10 @@ import {Observable} from 'rxjs/Rx';
           >{{letter}}</td>
           <td (click)=fire(row,col) align="center"
           *ngFor=" let currentSquare of myGame.board[row]; let col = index"
-          [class.hit]="myGame.board[row][col].hit"
+          [class.sumbmarineHit0]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 0"
+          [class.sumbmarineHit1]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 1"
+          [class.sumbmarineHit2]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 2"
+          [class.rotate]=" myGame.board[row][col].rotation"
           [class.ship]="myGame.board[row][col].ship"
           [class.miss]="myGame.board[row][col].miss"
           [class.sunk]="myGame.board[row][col].sunk"
@@ -82,6 +85,7 @@ export class AppComponent {
   }
   newGame(){
     this.myGame = new Game(10,10);
+    console.log(this.myGame.board);
   }
   useAI(){
     this.myGame.useAI();
