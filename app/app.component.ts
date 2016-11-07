@@ -15,7 +15,7 @@ import {Observable} from 'rxjs/Rx';
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf = "data.login == false"><a href='/auth/github'>Sign in with Github!</a></li>
-          <li *ngIf = "data.login == true"><a href='/logout'>Sign out</a></li>
+          <li *ngIf = "data.login == true"><a href='/logout'>Hello {{user.name}} Sign out</a></li>
         </ul>
       </div>
     </nav>
@@ -58,6 +58,7 @@ import {Observable} from 'rxjs/Rx';
           [class.rotate]=" myGame.board[row][col].rotation"
           [class.ship]="myGame.board[row][col].ship"
           [class.miss]="myGame.board[row][col].miss"
+          [class.beautify-background]="true"
           >
           </td>
         </tr>
@@ -94,6 +95,7 @@ export class AppComponent {
   public myGame:Game = new Game(10,10);
   public audio = new Audio();
   public data = {"login" : false};
+  public user = {};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/explosion.wav";
@@ -112,6 +114,11 @@ export class AppComponent {
      this.http.request('/login')
         .subscribe((res: Response) => {
           this.data = res.json();
+      });
+
+      this.http.request('/user')
+        .subscribe((res: Response) => {
+          this.user = res.json();
       });
   }
 }

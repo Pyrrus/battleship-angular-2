@@ -4,8 +4,21 @@ var app = module.exports.app = exports.app = express();
 var passport = require('passport');
 var GithubStrategy = require('passport-github').Strategy;
 var path = require('path');
-app.use(express.static(__dirname + '/'));
 var dotenv = require('dotenv').config();
+var firebase = require('firebase');
+var userJson = "";
+
+firebase.initializeApp({
+  apiKey: dotenv.apiKey,
+  authDomain: dotenv.authDomain,
+  databaseURL: dotenv.databaseURL,
+  storageBucket: dotenv.storageBucket
+});
+
+var db = firebase.database();
+
+// set the file path
+app.use(express.static(__dirname + '/'));
 
 passport.use(new GithubStrategy({
     clientID: dotenv.clientID,
@@ -31,9 +44,6 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-// set the file path
-
-
 // we will call this to start the GitHub Login process
 app.get('/auth/github', passport.authenticate('github'));
 
@@ -46,7 +56,6 @@ app.get('/auth/github/callback',
 
 // logout page
 app.get('/logout', function(req, res){
-  console.log('logging out');
   req.logout();
   res.redirect('/');
 });
@@ -57,8 +66,30 @@ app.get('/login', function(req, res) {
   } else {
    res.send('{"login":false}');
   }
+});
 
+app.get('/user', ensureAuthenticated, function(req, res) {
+  
+  db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
+    userJson = snapshot.val();
+  }); 
 
+  if (userJson !== "") {
+    res.send(userJson);
+  } else {
+    db.ref().child('user').push({
+      name: req.user.displayName,
+      gitID: req.user.id,
+    });
+
+    db.ref("/user").orderByChild("gitid").equalTo(req.user.id).on("child_added", function(snapshot) {
+      userJson = snapshot.val();
+    });
+
+    res.send(userJson);
+  }
+
+  //   res.send(userJson);
 });
 
 // index page
@@ -69,10 +100,6 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/')
 }
-
-app.get('/protected', ensureAuthenticated, function(req, res) {
-  res.send("acess granted");
-});
 
 var server = app.listen(30000, function () {
   console.log('Example app listening at http://%s:%s',
