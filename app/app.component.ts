@@ -122,3 +122,11 @@ export class AppComponent {
       });
   }
 }
+
+//BDD to-do list
+//Add attempt limit to get losing screen
+//add winning sounds
+//add "sunk" and "hit" instances in order to pair the sounds
+//cut winning sound to be short
+//cut battlestation .wav to just have "all hands to battlestations"
+//place explosion gif when sunk (repeat along ship squares)

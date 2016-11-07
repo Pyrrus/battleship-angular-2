@@ -39,6 +39,12 @@ You will need the following things properly installed on your computer.
 * Example Input: Click game square
 * Example Output: You hit!
 
+* Example Input: Player clicks all the squares needed for a ship
+* Example Output: Explosion sound and gif image
+
+* Example Input: Player sinks all ships
+* Example Output: Win Sound plays and Alert Pops
+
 ### License
 
 *This application is licensed under the MIT license*
