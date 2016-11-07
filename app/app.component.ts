@@ -21,7 +21,7 @@ import {Observable} from 'rxjs/Rx';
     </nav>
 
     <img id="banner" src="../resources/img/Banner.png">
-  
+
     <div class="well" id="map-well">
       <table id="game-board" align="center">
         <tr>
@@ -82,6 +82,10 @@ export class AppComponent {
   }
   newGame(){
     this.myGame = new Game(10,10);
+    var audio = new Audio();
+      audio.src = "../../resources/sounds/allhandstobattle.wav";
+      audio.load();
+      audio.play();
   }
   useAI(){
     this.myGame.useAI();
