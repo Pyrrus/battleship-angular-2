@@ -13,6 +13,9 @@ body{
     float:left;
     width: 79%;
     #game-board{
+      .rotate{
+        -webkit-transform: rotate(90deg);
+      }
       td{
         background-color: rgba(102,204,255,0.7);
         border-style: solid;
@@ -28,15 +31,21 @@ body{
         background-color: $navy-blue;
         color: white;
       }
-      // .ship{
-      //   background-color: #b3b3b3;
+      .ship{
+        background-color: #b3b3b3;
+      }
+      .sumbmarineHit0{
+        background-image: url("../../resources/img/submarine1.png");
+      }
+      .sumbmarineHit1{
+        background-image: url("../../resources/img/submarine2.png");
+      }
+      .sumbmarineHit2{
+        background-image: url("../../resources/img/submarine3.png");
+      }
+      // .sunk{
+      //   background-color: DarkBlue;
       // }
-      .hit{
-        background-color: #ff3333;
-      }
-      .sunk{
-        background-color: DarkBlue;
-      }
       .miss{
         background-color: white;
       }

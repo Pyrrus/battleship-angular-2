@@ -51,14 +51,14 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/test', function(req, res) {
+app.get('/login', function(req, res) {
   if (req.isAuthenticated()) {
-    console.log('test');
-    console.log(JSON.stringify(req.user, null, 4));
-    res.send("test and it work");
+     res.send('{"login":true}');
   } else {
-   res.send("Need to login");
+   res.send('{"login":false}');
   }
+
+
 });
 
 // index page

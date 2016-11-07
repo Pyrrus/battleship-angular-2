@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { Square } from './square.model';
 import { Game } from './game.model';
+import { Http, Response, Jsonp } from '@angular/http';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'my-app',
@@ -12,8 +14,8 @@ import { Game } from './game.model';
           <li><a href="/" class="navbar-brand">Battleship</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href='/auth/github'>Sign in with Github!</a></li>
-          <li><a href='/logout'>Sign out</a></li>
+          <li *ngIf = "data.login == false"><a href='/auth/github'>Sign in with Github!</a></li>
+          <li *ngIf = "data.login == true"><a href='/logout'>Sign out</a></li>
         </ul>
       </div>
     </nav>
@@ -36,7 +38,10 @@ import { Game } from './game.model';
           >{{letter}}</td>
           <td (click)=fire(row,col) align="center"
           *ngFor=" let currentSquare of myGame.board[row]; let col = index"
-          [class.hit]="myGame.board[row][col].hit"
+          [class.sumbmarineHit0]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 0"
+          [class.sumbmarineHit1]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 1"
+          [class.sumbmarineHit2]="myGame.board[row][col].hit && myGame.board[row][col].id == 1 && myGame.board[row][col].position == 2"
+          [class.rotate]=" myGame.board[row][col].rotation"
           [class.ship]="myGame.board[row][col].ship"
           [class.miss]="myGame.board[row][col].miss"
           [class.sunk]="myGame.board[row][col].sunk"
@@ -70,10 +75,12 @@ import { Game } from './game.model';
 })
 
 export class AppComponent {
+  constructor (private http: Http) {}
   public dummyArray = new Array(10);
   public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
   public myGame:Game = new Game(10,10);
   public audio = new Audio();
+  public data = {"login" : false};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
@@ -87,5 +94,11 @@ export class AppComponent {
   }
   useAI(){
     this.myGame.useAI();
+  }
+  ngOnInit(): void {
+     this.http.request('/login')
+        .subscribe((res: Response) => {
+          this.data = res.json();
+      });
   }
 }

@@ -133,7 +133,7 @@ gulp.task('serve', ['develop'], function() {
    browserSync.init(null, {
         proxy: "http://localhost:30000",
         port: 30000,
-    }); 
+    });
   // ::to reset type in rs then enter
   gulp.watch(['resources/js/*.js'], ['jsBuild']); // vanilla js changes, reload.
   gulp.watch(['*.html'], ['htmlBuild']); // html changes, reload.
@@ -151,7 +151,7 @@ gulp.task('develop', function (cb) {
         if (!started) {
             cb();
             started = true;
-        } 
+        }
     });
 });
 
