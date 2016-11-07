@@ -73,15 +73,17 @@ export class AppComponent {
   public dummyArray = new Array(10);
   public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
   public myGame:Game = new Game(10,10);
+  public audio = new Audio();
   fire(row: number,col: number){
     this.myGame.fire(row,col);
+    this.audio.src = "../../resources/sounds/torpedo.wav";
+    this.audio.play();
   }
   newGame(){
     this.myGame = new Game(10,10);
-    var audio = new Audio();
-      audio.src = "../../resources/sounds/allhandstobattle.wav";
-      audio.load();
-      audio.play();
+      this.audio.src = "../../resources/sounds/allhandstobattle.wav";
+      this.audio.load();
+      this.audio.play();
   }
   useAI(){
     this.myGame.useAI();
