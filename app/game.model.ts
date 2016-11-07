@@ -38,6 +38,10 @@ export class Game{
           randCol = that.lastColMove+1;
           randRow = that.lastRowMove;
           guessSuccess = true;
+          if (that.board[randRow][randCol].ship) {
+            that.lastColMove = randCol;
+            that.lastRowMove = randRow;
+          }
         }
       }
       if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastColMove > 0) {
@@ -46,6 +50,10 @@ export class Game{
           randCol = that.lastColMove-1;
           randRow = that.lastRowMove;
           guessSuccess = true;
+          if (that.board[randRow][randCol].ship) {
+            that.lastColMove = randCol;
+            that.lastRowMove = randRow;
+          }
         }
       }
       if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove < 9) {
@@ -54,6 +62,10 @@ export class Game{
           randCol = that.lastColMove;
           randRow = that.lastRowMove+1;
           guessSuccess = true;
+          if (that.board[randRow][randCol].ship) {
+            that.lastColMove = randCol;
+            that.lastRowMove = randRow;
+          }
         }
       }
       if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove > 0) {
@@ -62,23 +74,39 @@ export class Game{
           randCol = that.lastColMove;
           randRow = that.lastRowMove-1
           guessSuccess = true;
+          if (that.board[randRow][randCol].ship) {
+            that.lastColMove = randCol;
+            that.lastRowMove = randRow;
+          }
         }
       }
       if(guessSuccess === false){
+        var badGuess:boolean = false;
         do{
+          badGuess = false;
           randCol = Math.floor(Math.random() * that.boardColumns);
           randRow = Math.floor(Math.random() * that.boardRows);
-        }while(that.board[randRow][randCol].hit === true ||
+          if (randCol > 0 && randRow > 0 && randCol < 9 && randRow < 9) {
+            if (that.board[randRow-1][randCol].miss === true &&
+                that.board[randRow+1][randCol].miss === true &&
+                that.board[randRow][randCol-1].miss === true &&
+                that.board[randRow][randCol+1].miss === true
+            ) {
+              badGuess = true;
+            }
+          }
+        }while(badGuess || that.board[randRow][randCol].hit === true ||
              that.board[randRow][randCol].miss === true)
+        that.lastColMove = randCol;
+        that.lastRowMove = randRow;
       }
-      that.lastColMove = randCol;
-      that.lastRowMove = randRow;
+
       that.fire(randRow,randCol);
       console.log("got here!");
       if (that.gameCompleted) {
         clearInterval(id);
       }
-    },10);
+    },50);
   }
   fire(row: number,col: number){
     var selectedSquare:Square = this.board[row][col];
