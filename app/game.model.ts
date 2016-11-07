@@ -26,57 +26,56 @@ export class Game{
     this.generateShip(4,5); //Carrier
   }
   useAI(){
-    var that = this;
     var randCol:number = 0;
     var randRow:number = 0;
     var guessSuccess:boolean = false;
-    var id = setInterval(function(){
+    var id = setInterval(()=>{
       guessSuccess = false;
-      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastColMove < 9) {
-        if (that.board[that.lastRowMove][that.lastColMove+1].hit === false &&
-            that.board[that.lastRowMove][that.lastColMove+1].miss === false) {
-          randCol = that.lastColMove+1;
-          randRow = that.lastRowMove;
+      if (this.board[this.lastRowMove][this.lastColMove].hit && this.lastColMove < 9) {
+        if (this.board[this.lastRowMove][this.lastColMove+1].hit === false &&
+            this.board[this.lastRowMove][this.lastColMove+1].miss === false) {
+          randCol = this.lastColMove+1;
+          randRow = this.lastRowMove;
           guessSuccess = true;
-          if (that.board[randRow][randCol].ship) {
-            that.lastColMove = randCol;
-            that.lastRowMove = randRow;
+          if (this.board[randRow][randCol].ship) {
+            this.lastColMove = randCol;
+            this.lastRowMove = randRow;
           }
         }
       }
-      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastColMove > 0) {
-        if (that.board[that.lastRowMove][that.lastColMove-1].hit === false &&
-            that.board[that.lastRowMove][that.lastColMove-1].miss === false) {
-          randCol = that.lastColMove-1;
-          randRow = that.lastRowMove;
+      if (this.board[this.lastRowMove][this.lastColMove].hit && this.lastColMove > 0) {
+        if (this.board[this.lastRowMove][this.lastColMove-1].hit === false &&
+            this.board[this.lastRowMove][this.lastColMove-1].miss === false) {
+          randCol = this.lastColMove-1;
+          randRow = this.lastRowMove;
           guessSuccess = true;
-          if (that.board[randRow][randCol].ship) {
-            that.lastColMove = randCol;
-            that.lastRowMove = randRow;
+          if (this.board[randRow][randCol].ship) {
+            this.lastColMove = randCol;
+            this.lastRowMove = randRow;
           }
         }
       }
-      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove < 9) {
-        if (that.board[that.lastRowMove+1][that.lastColMove].hit === false &&
-            that.board[that.lastRowMove+1][that.lastColMove].miss === false) {
-          randCol = that.lastColMove;
-          randRow = that.lastRowMove+1;
+      if (this.board[this.lastRowMove][this.lastColMove].hit && this.lastRowMove < 9) {
+        if (this.board[this.lastRowMove+1][this.lastColMove].hit === false &&
+            this.board[this.lastRowMove+1][this.lastColMove].miss === false) {
+          randCol = this.lastColMove;
+          randRow = this.lastRowMove+1;
           guessSuccess = true;
-          if (that.board[randRow][randCol].ship) {
-            that.lastColMove = randCol;
-            that.lastRowMove = randRow;
+          if (this.board[randRow][randCol].ship) {
+            this.lastColMove = randCol;
+            this.lastRowMove = randRow;
           }
         }
       }
-      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove > 0) {
-        if (that.board[that.lastRowMove-1][that.lastColMove].hit === false &&
-            that.board[that.lastRowMove-1][that.lastColMove].miss === false) {
-          randCol = that.lastColMove;
-          randRow = that.lastRowMove-1
+      if (this.board[this.lastRowMove][this.lastColMove].hit && this.lastRowMove > 0) {
+        if (this.board[this.lastRowMove-1][this.lastColMove].hit === false &&
+            this.board[this.lastRowMove-1][this.lastColMove].miss === false) {
+          randCol = this.lastColMove;
+          randRow = this.lastRowMove-1
           guessSuccess = true;
-          if (that.board[randRow][randCol].ship) {
-            that.lastColMove = randCol;
-            that.lastRowMove = randRow;
+          if (this.board[randRow][randCol].ship) {
+            this.lastColMove = randCol;
+            this.lastRowMove = randRow;
           }
         }
       }
@@ -84,29 +83,29 @@ export class Game{
         var badGuess:boolean = false;
         do{
           badGuess = false;
-          randCol = Math.floor(Math.random() * that.boardColumns);
-          randRow = Math.floor(Math.random() * that.boardRows);
+          randCol = Math.floor(Math.random() * this.boardColumns);
+          randRow = Math.floor(Math.random() * this.boardRows);
           if (randCol > 0 && randRow > 0 && randCol < 9 && randRow < 9) {
-            if (that.board[randRow-1][randCol].miss === true &&
-                that.board[randRow+1][randCol].miss === true &&
-                that.board[randRow][randCol-1].miss === true &&
-                that.board[randRow][randCol+1].miss === true
+            if (( this.board[randRow-1][randCol].miss === true || this.board[randRow-1][randCol].sunk === true ) &&
+                ( this.board[randRow+1][randCol].miss === true || this.board[randRow+1][randCol].sunk === true ) &&
+                ( this.board[randRow][randCol-1].miss === true || this.board[randRow][randCol-1].sunk === true ) &&
+                ( this.board[randRow][randCol+1].miss === true || this.board[randRow][randCol+1].sunk === true )
             ) {
               badGuess = true;
             }
           }
-        }while(badGuess || that.board[randRow][randCol].hit === true ||
-             that.board[randRow][randCol].miss === true)
-        that.lastColMove = randCol;
-        that.lastRowMove = randRow;
+        }while(badGuess || this.board[randRow][randCol].hit === true ||
+             this.board[randRow][randCol].miss === true)
+        this.lastColMove = randCol;
+        this.lastRowMove = randRow;
       }
 
-      that.fire(randRow,randCol);
-      console.log("got here!");
-      if (that.gameCompleted) {
+      this.fire(randRow,randCol);
+      console.log("using lambda!");
+      if (this.gameCompleted) {
         clearInterval(id);
       }
-    },50);
+    },10);
   }
   fire(row: number,col: number){
     var selectedSquare:Square = this.board[row][col];
