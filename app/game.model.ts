@@ -94,6 +94,63 @@ export class Game{
               badGuess = true;
             }
           }
+          else if(randRow === 0 && randCol === 0){
+            if ((this.board[0][1].miss || this.board[0][1].sunk) &&
+                (this.board[1][0].miss || this.board[1][0].sunk)
+             ) {
+                badGuess = true;
+            }
+          }else if(randRow === 0 && randCol === 9){
+            if ((this.board[0][8].miss || this.board[0][8].sunk) &&
+                (this.board[1][9].miss || this.board[1][9].sunk)
+             ) {
+                badGuess = true;
+            }
+          }else if(randRow === 9 && randCol === 9){
+            if ((this.board[8][9].miss || this.board[8][9].sunk) &&
+                (this.board[9][8].miss || this.board[9][8].sunk)
+             ) {
+                badGuess = true;
+            }
+          }else if(randRow === 9 && randCol === 0){
+            if ((this.board[8][0].miss || this.board[8][0].sunk) &&
+                (this.board[9][1].miss || this.board[9][1].sunk)
+             ) {
+                badGuess = true;
+            }
+          }
+          else if(randRow === 0 && randCol > 0 && randCol < 9){
+            if((this.board[0][randCol-1].miss || this.board[0][randCol-1].sunk) &&
+               (this.board[1][randCol].miss || this.board[1][randCol].sunk) &&
+               (this.board[0][randCol+1].miss || this.board[0][randCol+1].sunk)
+            ){
+              badGuess = true;
+            }
+          }
+          else if(randRow > 0 && randRow < 9 && randCol === 9){
+            if((this.board[randRow-1][9].miss || this.board[randRow-1][9].sunk) &&
+               (this.board[randRow+1][9].miss || this.board[randRow+1][9].sunk) &&
+               (this.board[randRow][8].miss || this.board[randRow][8].sunk)
+            ){
+              badGuess = true;
+            }
+          }
+          else if(randRow === 9 && randCol > 0 && randCol < 9){
+            if((this.board[9][randCol-1].miss || this.board[9][randCol-1].sunk) &&
+               (this.board[8][randCol].miss || this.board[8][randCol].sunk) &&
+               (this.board[9][randCol+1].miss || this.board[9][randCol+1].sunk)
+            ){
+              badGuess = true;
+            }
+          }
+          else if(randRow > 0 && randRow < 9 && randCol === 0){
+            if((this.board[randRow-1][0].miss || this.board[randRow-1][0].sunk) &&
+               (this.board[randRow+1][0].miss || this.board[randRow+1][0].sunk) &&
+               (this.board[randRow][1].miss || this.board[randRow][1].sunk)
+            ){
+              badGuess = true;
+            }
+          }
         }while(badGuess || this.board[randRow][randCol].hit === true ||
              this.board[randRow][randCol].miss === true)
         this.lastColMove = randCol;
@@ -101,11 +158,13 @@ export class Game{
       }
 
       this.fire(randRow,randCol);
-      console.log("using lambda!");
+      console.log("hello!!");
       if (this.gameCompleted) {
+        this.constructor(10,10);
+        this.useAI();
         clearInterval(id);
       }
-    },10);
+    },1);
   }
   fire(row: number,col: number){
     var selectedSquare:Square = this.board[row][col];
