@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { Square } from './square.model';
 import { Game } from './game.model';
+import { Http, Response, Jsonp } from '@angular/http';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'my-app',
@@ -12,8 +14,8 @@ import { Game } from './game.model';
           <li><a href="/" class="navbar-brand">Battleship</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href='/auth/github'>Sign in with Github!</a></li>
-          <li><a href='/logout'>Sign out</a></li>
+          <li *ngIf = "data.login == false"><a href='/auth/github'>Sign in with Github!</a></li>
+          <li *ngIf = "data.login == true"><a href='/logout'>Sign out</a></li>
         </ul>
       </div>
     </nav>
@@ -67,9 +69,11 @@ import { Game } from './game.model';
 })
 
 export class AppComponent {
+  constructor (private http: Http) {}
   public dummyArray = new Array(10);
   public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
   public myGame:Game = new Game(10,10);
+  public data = {"login" : false};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
   }
@@ -78,5 +82,11 @@ export class AppComponent {
   }
   useAI(){
     this.myGame.useAI();
+  }
+  ngOnInit(): void {
+     this.http.request('/login')
+        .subscribe((res: Response) => {
+          this.data = res.json();
+      });
   }
 }
