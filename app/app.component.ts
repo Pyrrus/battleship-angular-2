@@ -96,12 +96,12 @@ export class AppComponent {
   public data = {"login" : false};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
-    this.audio.src = "../../resources/sounds/torpedo.wav";
+    this.audio.src = "../../resources/sounds/explosion.wav";
     this.audio.play();
   }
   newGame(){
     this.myGame = new Game(10,10);
-      this.audio.src = "../../resources/sounds/explosion.wav";
+      this.audio.src = "../../resources/sounds/allhandstobattle.wav";
       this.audio.load();
       this.audio.play();
   }
