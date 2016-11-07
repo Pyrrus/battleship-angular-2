@@ -98,7 +98,7 @@ export class AppComponent {
   public user = {};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
-    this.audio.src = "../../resources/sounds/explosion.wav";
+    this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
   }
   newGame(){
