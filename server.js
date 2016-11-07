@@ -83,7 +83,7 @@ app.get('/user', ensureAuthenticated, function(req, res) {
       gitID: req.user.id,
     });
 
-    db.ref("/user").orderByChild("gitid").equalTo(req.user.id).on("child_added", function(snapshot) {
+    db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
       userJson = snapshot.val();
     });
 
