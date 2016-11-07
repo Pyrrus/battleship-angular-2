@@ -31,6 +31,13 @@ You will need the following things properly installed on your computer.
 * Open a new tab, and execute the command `node server js` (Keep this tab open)
 * Visit your app at [http://localhost:30000](http://localhost:30000).
 
+## Specs
+
+* Example Input: Click game square
+* Example Output: You miss!
+
+* Example Input: Click game square
+* Example Output: You hit!
 
 ### License
 
