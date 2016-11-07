@@ -18,8 +18,8 @@ body{
       }
       td{
         background-color: rgba(102,204,255,0.7);
-        border-style: solid;
-        border-width: 1px 1px 1px 1px;
+        //border-style: solid;
+        //border-width: 1px 1px 1px 1px;
         width: 50px;
         height: 50px;
         font-weight: bold;
@@ -31,21 +31,60 @@ body{
         background-color: $navy-blue;
         color: white;
       }
-      .ship{
-        background-color: #b3b3b3;
+      // .ship{
+      //   background-color: #b3b3b3;
+      // }
+      .submarineHit0{
+        background-image: url("../../resources/img/submarine0.png");
       }
-      .sumbmarineHit0{
+      .submarineHit1{
         background-image: url("../../resources/img/submarine1.png");
       }
-      .sumbmarineHit1{
+      .submarineHit2{
         background-image: url("../../resources/img/submarine2.png");
       }
-      .sumbmarineHit2{
-        background-image: url("../../resources/img/submarine3.png");
+      .cruiserHit0{
+        background-image: url("../../resources/img/Cruiser0.png");
       }
-      // .sunk{
-      //   background-color: DarkBlue;
-      // }
+      .cruiserHit1{
+        background-image: url("../../resources/img/Cruiser1.png");
+      }
+      .cruiserHit2{
+        background-image: url("../../resources/img/Cruiser2.png");
+      }
+      .tugboatHit0{
+        background-image: url("../../resources/img/Tugboat0.png");
+      }
+      .tugboatHit1{
+        background-image: url("../../resources/img/Tugboat1.png");
+      }
+      .battleshipHit0{
+        background-image: url("../../resources/img/Battle0.png");
+      }
+      .battleshipHit1{
+        background-image: url("../../resources/img/Battle1.png");
+      }
+      .battleshipHit2{
+        background-image: url("../../resources/img/Battle2.png");
+      }
+      .battleshipHit3{
+        background-image: url("../../resources/img/Battle3.png");
+      }
+      .carrierHit0{
+        background-image: url("../../resources/img/Tanker0.png")
+      }
+      .carrierHit1{
+          background-image: url("../../resources/img/Tanker1.png")
+        }
+      .carrierHit2{
+          background-image: url("../../resources/img/Tanker2.png")
+        }
+      .carrierHit3{
+            background-image: url("../../resources/img/Tanker3.png")
+          }
+      .carrierHit4{
+            background-image: url("../../resources/img/Tanker4.png")
+          }
       .miss{
         background-color: white;
       }
