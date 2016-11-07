@@ -31,9 +31,6 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-// set the file path
-
-
 // we will call this to start the GitHub Login process
 app.get('/auth/github', passport.authenticate('github'));
 
@@ -46,7 +43,6 @@ app.get('/auth/github/callback',
 
 // logout page
 app.get('/logout', function(req, res){
-  console.log('logging out');
   req.logout();
   res.redirect('/');
 });
@@ -57,8 +53,10 @@ app.get('/login', function(req, res) {
   } else {
    res.send('{"login":false}');
   }
+});
 
-
+app.get('/user', ensureAuthenticated, function(req, res) {
+  res.send(req.user);
 });
 
 // index page
@@ -69,10 +67,6 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/')
 }
-
-app.get('/protected', ensureAuthenticated, function(req, res) {
-  res.send("acess granted");
-});
 
 var server = app.listen(30000, function () {
   console.log('Example app listening at http://%s:%s',

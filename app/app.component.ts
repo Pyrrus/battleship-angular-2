@@ -15,7 +15,7 @@ import {Observable} from 'rxjs/Rx';
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf = "data.login == false"><a href='/auth/github'>Sign in with Github!</a></li>
-          <li *ngIf = "data.login == true"><a href='/logout'>Sign out</a></li>
+          <li *ngIf = "data.login == true"><a href='/logout'>Hello {{user.displayName}} Sign out</a></li>
         </ul>
       </div>
     </nav>
@@ -74,6 +74,7 @@ export class AppComponent {
   public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
   public myGame:Game = new Game(10,10);
   public data = {"login" : false};
+  public user = {};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
   }
@@ -87,6 +88,11 @@ export class AppComponent {
      this.http.request('/login')
         .subscribe((res: Response) => {
           this.data = res.json();
+      });
+
+      this.http.request('/user')
+        .subscribe((res: Response) => {
+          this.user = res.json();
       });
   }
 }
