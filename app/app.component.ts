@@ -98,7 +98,7 @@ export class AppComponent {
   public user = {};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
-    this.audio.src = "../../resources/sounds/explosion.wav";
+    this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
   }
   newGame(){
@@ -122,3 +122,11 @@ export class AppComponent {
       });
   }
 }
+
+//BDD to-do list
+//Add attempt limit to get losing screen
+//add winning sounds
+//add "sunk" and "hit" instances in order to pair the sounds
+//cut winning sound to be short
+//cut battlestation .wav to just have "all hands to battlestations"
+//place explosion gif when sunk (repeat along ship squares)
