@@ -31,7 +31,7 @@ import { Game } from './game.model';
           <td align="center"
           [class.border]="true"
           >{{letter}}</td>
-          <td (click)=fire(myGame.board[row][col],row,col) align="center"
+          <td (click)=fire(row,col) align="center"
           *ngFor=" let currentSquare of myGame.board[row]; let col = index"
           [class.hit]="myGame.board[row][col].hit"
           [class.ship]="myGame.board[row][col].ship"
@@ -59,20 +59,24 @@ import { Game } from './game.model';
         <li>Total misses: {{myGame.attempts - myGame.hitShip}}</li>
       </ul>
     </div>
-      <button class="btn" (click)="newGame()">New Game</button>
+      <button class="btn" (click)="newGame()">New Game</button><br><br>
+      <button class="btn" (click)="useAI()">Use AI</button>
     </div>
   </div>
   `
 })
 
 export class AppComponent {
-  public myGame:Game = new Game(10,10);
   public dummyArray = new Array(10);
   public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
-  fire(selectedSquare:Square,row: number,col: number){
-    this.myGame.fire(selectedSquare,row,col);
+  public myGame:Game = new Game(10,10);
+  fire(row: number,col: number){
+    this.myGame.fire(row,col);
   }
   newGame(){
     this.myGame = new Game(10,10);
+  }
+  useAI(){
+    this.myGame.useAI();
   }
 }

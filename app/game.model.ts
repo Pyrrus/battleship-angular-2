@@ -10,6 +10,8 @@ export class Game{
   public cruiser: String = "not-sunk";
   public submarine: String = "not-sunk";
   public destroyer: String = "not-sunk";
+  public lastColMove:number = 0;
+  public lastRowMove:number = 0;
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -23,8 +25,63 @@ export class Game{
     this.generateShip(3,4); //Battleship
     this.generateShip(4,5); //Carrier
   }
-
-  fire(selectedSquare:Square,row: number,col: number){
+  useAI(){
+    var that = this;
+    var randCol:number = 0;
+    var randRow:number = 0;
+    var guessSuccess:boolean = false;
+    var id = setInterval(function(){
+      guessSuccess = false;
+      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastColMove < 9) {
+        if (that.board[that.lastRowMove][that.lastColMove+1].hit === false &&
+            that.board[that.lastRowMove][that.lastColMove+1].miss === false) {
+          randCol = that.lastColMove+1;
+          randRow = that.lastRowMove;
+          guessSuccess = true;
+        }
+      }
+      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastColMove > 0) {
+        if (that.board[that.lastRowMove][that.lastColMove-1].hit === false &&
+            that.board[that.lastRowMove][that.lastColMove-1].miss === false) {
+          randCol = that.lastColMove-1;
+          randRow = that.lastRowMove;
+          guessSuccess = true;
+        }
+      }
+      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove < 9) {
+        if (that.board[that.lastRowMove+1][that.lastColMove].hit === false &&
+            that.board[that.lastRowMove+1][that.lastColMove].miss === false) {
+          randCol = that.lastColMove;
+          randRow = that.lastRowMove+1;
+          guessSuccess = true;
+        }
+      }
+      if (that.board[that.lastRowMove][that.lastColMove].hit && that.lastRowMove > 0) {
+        if (that.board[that.lastRowMove-1][that.lastColMove].hit === false &&
+            that.board[that.lastRowMove-1][that.lastColMove].miss === false) {
+          randCol = that.lastColMove;
+          randRow = that.lastRowMove-1
+          guessSuccess = true;
+        }
+      }
+      if(guessSuccess === false){
+        do{
+          randCol = Math.floor(Math.random() * that.boardColumns);
+          randRow = Math.floor(Math.random() * that.boardRows);
+        }while(that.board[randRow][randCol].hit === true ||
+             that.board[randRow][randCol].miss === true)
+      }
+      that.lastColMove = randCol;
+      that.lastRowMove = randRow;
+      that.fire(randRow,randCol);
+      console.log("got here!");
+      if (that.gameCompleted) {
+        clearInterval(id);
+      }
+    },10);
+  }
+  fire(row: number,col: number){
+    var selectedSquare:Square = this.board[row][col];
     if (this.gameCompleted) {
       return;
     }
@@ -71,7 +128,7 @@ export class Game{
       this.board[row][col].miss = true;
     }
     if (this.hitShip === 17) {
-      setTimeout(function(){ alert("you win"); }, 1);
+      // setTimeout(function(){ alert("you win"); }, 10);
       this.gameCompleted = true;
     }
   }
