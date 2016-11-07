@@ -57,6 +57,7 @@ app.get('/auth/github/callback',
 // logout page
 app.get('/logout', function(req, res){
   req.logout();
+  userJson = "";
   res.redirect('/');
 });
 
