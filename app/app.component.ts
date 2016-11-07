@@ -85,7 +85,10 @@ export class AppComponent {
   }
   newGame(){
     this.myGame = new Game(10,10);
-    console.log(this.myGame.board);
+    var audio = new Audio();
+      audio.src = "../../resources/sounds/allhandstobattle.wav";
+      audio.load();
+      audio.play();
   }
   useAI(){
     this.myGame.useAI();
