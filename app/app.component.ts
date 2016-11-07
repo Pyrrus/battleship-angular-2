@@ -58,6 +58,7 @@ import {Observable} from 'rxjs/Rx';
           [class.rotate]=" myGame.board[row][col].rotation"
           [class.ship]="myGame.board[row][col].ship"
           [class.miss]="myGame.board[row][col].miss"
+          [class.beautify-background]="true"
           >
           </td>
         </tr>

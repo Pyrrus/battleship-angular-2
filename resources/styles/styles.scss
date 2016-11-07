@@ -34,6 +34,10 @@ body{
       // .ship{
       //   background-color: #b3b3b3;
       // }
+      .beautify-background{
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
       .submarineHit0{
         background-image: url("../../resources/img/submarine0.png");
       }
@@ -74,17 +78,17 @@ body{
         background-image: url("../../resources/img/Tanker0.png")
       }
       .carrierHit1{
-          background-image: url("../../resources/img/Tanker1.png")
-        }
+        background-image: url("../../resources/img/Tanker1.png")
+      }
       .carrierHit2{
-          background-image: url("../../resources/img/Tanker2.png")
-        }
+        background-image: url("../../resources/img/Tanker2.png")
+      }
       .carrierHit3{
-            background-image: url("../../resources/img/Tanker3.png")
-          }
+        background-image: url("../../resources/img/Tanker3.png")
+      }
       .carrierHit4{
-            background-image: url("../../resources/img/Tanker4.png")
-          }
+        background-image: url("../../resources/img/Tanker4.png")
+      }
       .miss{
         background-color: white;
       }
