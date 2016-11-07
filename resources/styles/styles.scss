@@ -3,8 +3,12 @@ $map-color : darken(#FFDEAD,5%);
 $light-green: #e6ffcc;
 $water-blue: #66ccff;
 body{
-  background-color: darken(#F0FFFF,70%);
+  background-color: #173859;
   #map-well{
+    background-image: url('../../resources/img/Ocean.png');
+    background-size: cover;
+    background-position: center;
+    margin-top: 10px;
     background-color: $map-color;
     float:left;
     width: 79%;
@@ -22,7 +26,7 @@ body{
       }
       .border{
         background-color: $navy-blue;
-        color: limegreen;
+        color: white;
       }
       // .ship{
       //   background-color: #b3b3b3;
@@ -39,8 +43,9 @@ body{
     }
   }
   #score-board{
+    margin-top: 10px;
     text-align: center;
-    background-color:	$light-green;
+    background-color:	#204f7c;
     float: right;
     width: 19%;
     height: 591px;
@@ -52,12 +57,12 @@ body{
     }
     #ships{
       margin-top: 20px;
-      padding: 10px 0px 0px 0px;
+      padding: 10px 5px 5px 10px;
       background-color: $navy-blue;
       ul{
         padding-left: 0px;
         li{
-          font-size: 18px;
+          font-size: 14px;
           display:inline;
           color: white;
           width: 250px;
@@ -66,7 +71,7 @@ body{
       }
     }
     #attempts{
-      background-color: #2F4F4F ;
+      background-color: $water-blue ;
       ul{
         margin: 0px;
         padding-left: 0px;

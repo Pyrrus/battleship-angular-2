@@ -17,6 +17,9 @@ import { Game } from './game.model';
         </ul>
       </div>
     </nav>
+
+    <img id="banner" src="../resources/img/Banner.png">
+  
     <div class="well" id="map-well">
       <table id="game-board" align="center">
         <tr>
