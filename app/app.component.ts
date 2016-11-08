@@ -23,7 +23,15 @@ import {Observable} from 'rxjs/Rx';
     <img id="banner" src="../resources/img/Banner.png">
 
     <div class="well" id="map-well">
-      <table id="game-board" class="table-responsive" align="center">
+
+      <div *ngIf = "hideHigh">
+      	<div class="well">
+      	 <ol>
+      	 	<li *ngFor = "let highScore of highScore">{{highScore.attempts}} by {{highScore.name}}</li>
+      	 </ol>
+      	</div>
+      </div>
+      <table *ngIf = "!hideHigh" id="game-board" class="table-responsive" align="center">
         <tr>
           <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
           <td align="center" *ngFor="let foo of dummyArray; let index = index"
@@ -98,6 +106,8 @@ import {Observable} from 'rxjs/Rx';
     </div>
       <button class="btn" (click)="newGame()">New Game</button><br><br>
       <button class="btn" (click)="useAI()">Use AI</button>
+      <br><br>
+      <button class="btn" (click)="showHigh()">show Highscore</button>
     </div>
   </div>
   `
@@ -111,13 +121,18 @@ export class AppComponent {
   public audio = new Audio();
   public data = {"login" : false};
   public user = "";
+  public highScore = "";
+  public userScore = "";
+  public hideHigh = false;
+  public hideUser = false;
   fire(row: number,col: number){
     // TODO put logic to test return value of fire method and play correct sound (fire returns "sunk", "hit", or "miss")
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
-  if (this.myGame.hitShip === 1) {
-      // this.win()
+
+  if (this.myGame.hitShip === 17) {
+      this.win();
     }
   }
   win() {
@@ -136,6 +151,14 @@ export class AppComponent {
 	          });
   	}
   }
+  showHigh() {
+  	this.http.request('/highscore')
+	      .subscribe((res: Response) => {
+	        this.highScore = res.json();
+	  });
+  	this.hideHigh = true;
+
+  }
   newGame(){
     this.myGame = new Game(10,10);
     this.audio.src = "../../resources/sounds/allhandstobattle.mp3";
@@ -150,10 +173,21 @@ export class AppComponent {
         .subscribe((res: Response) => {
           this.data = res.json();
       });
+
       this.http.request('/user')
 	      .subscribe((res: Response) => {
 	        this.user = res.json();
-	      });
+	  });
+
+	  this.http.request('/highscore')
+	      .subscribe((res: Response) => {
+	        this.highScore = res.json();
+	  });
+	  
+	  this.http.request('/userscore')
+	      .subscribe((res: Response) => {
+	        this.userScore = res.json();
+	  });
   }
 }
 

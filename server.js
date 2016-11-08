@@ -77,25 +77,49 @@ app.get('/user', ensureAuthenticated, function(req, res) {
 app.get('/', function(req, res) {
 });
 
+app.get('/highscore', function(req, res) {
+  var highscore = [];
+  var scoresRef = db.ref("scores");
+  scoresRef.orderByValue().on("value", function(snapshot) {
+    snapshot.forEach(function(data) {
+     highscore.push(data.val());
+    });
+    hightscore = JSON.stringify(highscore);
+    highscore.sort(function(a, b) {
+      return a.attempts - b.attempts;
+    })
+    res.send(highscore);
+  });
+});
+
+
+app.get('/userscore', ensureAuthenticated, function(req, res) {
+  var userScore = [];
+  var scoresRef = db.ref("scores");
+  scoresRef.orderByValue().on("value", function(snapshot) {
+    snapshot.forEach(function(data) {
+      if (data.val().gitID == req.user.id)
+        userScore.push(data.val());
+    });
+    hightscore = JSON.stringify(userScore);
+    userScore.sort(function(a, b) {
+      return a.attempts - b.attempts;
+    })
+    res.send(userScore);
+  });
+});
+
 app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
   var hits = req.query['hits'];
-
-  db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(user) {
     var scoreData = {
       attempts: attempts,
       hits: hits,
-      name: user.val().name,
-      userID: user.key,
+      name: req.user.displayName,
+      gitID: req.user.id,
     };
 
-    var newScoreKey = db.ref().child('scores').push().key;
-    var updates = {};
-    updates['/scores/' + newScoreKey] = scoreData;
-    updates['/user/' + user.key + '/scores/' + newScoreKey] = scoreData;
-
-    return db.ref().update(updates);
-  }); 
+    db.ref().child('scores').push(scoreData);
 });
 
 app.get('/error', function(req, res) {
