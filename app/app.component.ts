@@ -138,12 +138,9 @@ export class AppComponent {
   }
 }
 
+//All the sounds are in the sounds folder. Just need to add them!
 //BDD to-do list
 //Add attempt limit to get losing screen
-//add winning sounds
+//add winning sounds (Have the sound, just need the instance to pair!)
 //add "sunk" and "hit" instances in order to pair the sounds
-//cut winning sound to be short
-//cut battlestation .wav to just have "all hands to battlestations"
 //place explosion gif when sunk (repeat along ship squares)
-// put pictures of ships in place of "sunk" div. Have the ships turn red when they are sunk
-// fix banner width
