@@ -89,12 +89,21 @@ app.get('/user', ensureAuthenticated, function(req, res) {
 
     res.send(userJson);
   }
-
-  //   res.send(userJson);
 });
 
 // index page
 app.get('/', function(req, res) {
+});
+
+app.post('/savescore', function(req, res){
+ console.log("INININININININININININININ INININININ");
+  var attempts =req.query['attempts'] || 'default';
+  var hits = req.query['hits'] || 'default';
+  console.log(attempts + ' ' + hits);
+  // db.ref().child('user').push({
+  //     name: req.user.displayName,
+  //     gitID: req.user.id,
+  //   });
 });
 
 function ensureAuthenticated(req, res, next) {
