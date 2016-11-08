@@ -14,6 +14,7 @@ export class Game{
   public lastRowMove:number = 0;
   public lastRandHitCol: number = 0;
   public lastRandHitRow: number = 0;
+
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -27,6 +28,7 @@ export class Game{
     this.generateShip(3,4); //Battleship
     this.generateShip(4,5); //Carrier
   }
+
   useAI(){
     var randCol:number = 0;
     var randRow:number = 0;
@@ -38,7 +40,11 @@ export class Game{
             this.board[this.lastRowMove][this.lastColMove+1].miss === false) {
           randCol = this.lastColMove+1;
           randRow = this.lastRowMove;
-          guessSuccess = true;
+          if (this.badMove(randRow,randCol)) {
+            guessSuccess = false;
+          }else{
+            guessSuccess = true;
+          }
           if (this.board[randRow][randCol].ship) {
             this.lastColMove = randCol;
             this.lastRowMove = randRow;
@@ -50,7 +56,11 @@ export class Game{
             this.board[this.lastRowMove][this.lastColMove-1].miss === false) {
           randCol = this.lastColMove-1;
           randRow = this.lastRowMove;
-          guessSuccess = true;
+          if (this.badMove(randRow,randCol)) {
+            guessSuccess = false;
+          }else{
+            guessSuccess = true;
+          }
           if (this.board[randRow][randCol].ship) {
             this.lastColMove = randCol;
             this.lastRowMove = randRow;
@@ -62,7 +72,11 @@ export class Game{
             this.board[this.lastRowMove+1][this.lastColMove].miss === false) {
           randCol = this.lastColMove;
           randRow = this.lastRowMove+1;
-          guessSuccess = true;
+          if (this.badMove(randRow,randCol)) {
+            guessSuccess = false;
+          }else{
+            guessSuccess = true;
+          }
           if (this.board[randRow][randCol].ship) {
             this.lastColMove = randCol;
             this.lastRowMove = randRow;
@@ -74,7 +88,11 @@ export class Game{
             this.board[this.lastRowMove-1][this.lastColMove].miss === false) {
           randCol = this.lastColMove;
           randRow = this.lastRowMove-1
-          guessSuccess = true;
+          if (this.badMove(randRow,randCol)) {
+            guessSuccess = false;
+          }else{
+            guessSuccess = true;
+          }
           if (this.board[randRow][randCol].ship) {
             this.lastColMove = randCol;
             this.lastRowMove = randRow;
@@ -84,75 +102,9 @@ export class Game{
       if(guessSuccess === false){
         var badGuess:boolean = false;
         do{
-          badGuess = false;
-          randCol = Math.floor(Math.random() * this.boardColumns);
           randRow = Math.floor(Math.random() * this.boardRows);
-          if (randCol > 0 && randRow > 0 && randCol < 9 && randRow < 9) {
-            if (( this.board[randRow-1][randCol].miss === true || this.board[randRow-1][randCol].sunk === true ) &&
-                ( this.board[randRow+1][randCol].miss === true || this.board[randRow+1][randCol].sunk === true ) &&
-                ( this.board[randRow][randCol-1].miss === true || this.board[randRow][randCol-1].sunk === true ) &&
-                ( this.board[randRow][randCol+1].miss === true || this.board[randRow][randCol+1].sunk === true )
-            ) {
-              badGuess = true;
-            }
-          }
-          else if(randRow === 0 && randCol === 0){
-            if ((this.board[0][1].miss || this.board[0][1].sunk) &&
-                (this.board[1][0].miss || this.board[1][0].sunk)
-             ) {
-                badGuess = true;
-            }
-          }else if(randRow === 0 && randCol === 9){
-            if ((this.board[0][8].miss || this.board[0][8].sunk) &&
-                (this.board[1][9].miss || this.board[1][9].sunk)
-             ) {
-                badGuess = true;
-            }
-          }else if(randRow === 9 && randCol === 9){
-            if ((this.board[8][9].miss || this.board[8][9].sunk) &&
-                (this.board[9][8].miss || this.board[9][8].sunk)
-             ) {
-                badGuess = true;
-            }
-          }else if(randRow === 9 && randCol === 0){
-            if ((this.board[8][0].miss || this.board[8][0].sunk) &&
-                (this.board[9][1].miss || this.board[9][1].sunk)
-             ) {
-                badGuess = true;
-            }
-          }
-          else if(randRow === 0 && randCol > 0 && randCol < 9){
-            if((this.board[0][randCol-1].miss || this.board[0][randCol-1].sunk) &&
-               (this.board[1][randCol].miss || this.board[1][randCol].sunk) &&
-               (this.board[0][randCol+1].miss || this.board[0][randCol+1].sunk)
-            ){
-              badGuess = true;
-            }
-          }
-          else if(randRow > 0 && randRow < 9 && randCol === 9){
-            if((this.board[randRow-1][9].miss || this.board[randRow-1][9].sunk) &&
-               (this.board[randRow+1][9].miss || this.board[randRow+1][9].sunk) &&
-               (this.board[randRow][8].miss || this.board[randRow][8].sunk)
-            ){
-              badGuess = true;
-            }
-          }
-          else if(randRow === 9 && randCol > 0 && randCol < 9){
-            if((this.board[9][randCol-1].miss || this.board[9][randCol-1].sunk) &&
-               (this.board[8][randCol].miss || this.board[8][randCol].sunk) &&
-               (this.board[9][randCol+1].miss || this.board[9][randCol+1].sunk)
-            ){
-              badGuess = true;
-            }
-          }
-          else if(randRow > 0 && randRow < 9 && randCol === 0){
-            if((this.board[randRow-1][0].miss || this.board[randRow-1][0].sunk) &&
-               (this.board[randRow+1][0].miss || this.board[randRow+1][0].sunk) &&
-               (this.board[randRow][1].miss || this.board[randRow][1].sunk)
-            ){
-              badGuess = true;
-            }
-          }
+          randCol = Math.floor(Math.random() * this.boardColumns);
+          badGuess = this.badMove(randRow,randCol);
         }while(badGuess || this.board[randRow][randCol].hit === true ||
              this.board[randRow][randCol].miss === true)
         this.lastColMove = randCol;
@@ -160,8 +112,6 @@ export class Game{
         this.lastRandHitRow = randRow;
         this.lastRandHitCol = randCol;
       }
-
-
       this.fire(randRow,randCol);
       if (this.gameCompleted) {
         this.constructor(10,10);
@@ -170,6 +120,77 @@ export class Game{
       }
     },1);
   }
+
+  badMove(row: number,col: number){
+    if (col > 0 && row > 0 && col < 9 && row < 9) {
+      if (( this.board[row-1][col].miss === true || this.board[row-1][col].sunk === true ) &&
+          ( this.board[row+1][col].miss === true || this.board[row+1][col].sunk === true ) &&
+          ( this.board[row][col-1].miss === true || this.board[row][col-1].sunk === true ) &&
+          ( this.board[row][col+1].miss === true || this.board[row][col+1].sunk === true )
+      ) {
+        return true;
+      }
+    }
+    else if(row === 0 && col === 0){
+      if ((this.board[0][1].miss || this.board[0][1].sunk) &&
+          (this.board[1][0].miss || this.board[1][0].sunk)
+       ) {
+          return true;
+      }
+    }else if(row === 0 && col === 9){
+      if ((this.board[0][8].miss || this.board[0][8].sunk) &&
+          (this.board[1][9].miss || this.board[1][9].sunk)
+       ) {
+          return true;
+      }
+    }else if(row === 9 && col === 9){
+      if ((this.board[8][9].miss || this.board[8][9].sunk) &&
+          (this.board[9][8].miss || this.board[9][8].sunk)
+       ) {
+          return true;
+      }
+    }else if(row === 9 && col === 0){
+      if ((this.board[8][0].miss || this.board[8][0].sunk) &&
+          (this.board[9][1].miss || this.board[9][1].sunk)
+       ) {
+          return true;
+      }
+    }
+    else if(row === 0 && col > 0 && col < 9){
+      if((this.board[0][col-1].miss || this.board[0][col-1].sunk) &&
+         (this.board[1][col].miss || this.board[1][col].sunk) &&
+         (this.board[0][col+1].miss || this.board[0][col+1].sunk)
+      ){
+        return true;
+      }
+    }
+    else if(row > 0 && row < 9 && col === 9){
+      if((this.board[row-1][9].miss || this.board[row-1][9].sunk) &&
+         (this.board[row+1][9].miss || this.board[row+1][9].sunk) &&
+         (this.board[row][8].miss || this.board[row][8].sunk)
+      ){
+        return true;
+      }
+    }
+    else if(row === 9 && col > 0 && col < 9){
+      if((this.board[9][col-1].miss || this.board[9][col-1].sunk) &&
+         (this.board[8][col].miss || this.board[8][col].sunk) &&
+         (this.board[9][col+1].miss || this.board[9][col+1].sunk)
+      ){
+        return true;
+      }
+    }
+    else if(row > 0 && row < 9 && col === 0){
+      if((this.board[row-1][0].miss || this.board[row-1][0].sunk) &&
+         (this.board[row+1][0].miss || this.board[row+1][0].sunk) &&
+         (this.board[row][1].miss || this.board[row][1].sunk)
+      ){
+        return true;
+      }
+    }
+    return false;
+  }
+
   fire(row: number,col: number){
     var selectedSquare:Square = this.board[row][col];
     if (this.gameCompleted) {
