@@ -31,7 +31,8 @@ export class Game{
     var randRow:number = 0;
     var strategy:String = "randomSearch";
     var direction:number = 0;
-    var randomGuess:Move =
+    var randomGuess:Move = null;
+    var move:Move = null;
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
         while(true){
