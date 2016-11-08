@@ -39,17 +39,7 @@ export class Game{
             if(!this.legalMove(move.row,move.col-1)){
               console.log("illegal move left");
               direction = 1;
-            }
-            else{
-              fireResult = this.fire(move.row,move.col-1);
-              if(fireResult === "hit") {
-                move = new Move(move.row,move.col-1);
-                direction = 0;
-              }
-              else{
-                direction = 1;
-              }
-              console.log("firing left");
+            }else{
               break;
             }
           }else if(direction === 1){
@@ -57,14 +47,6 @@ export class Game{
               console.log("illegal move down");
               direction = 2;
             }else{
-              fireResult = this.fire(move.row+1,move.col);
-              if(fireResult === "hit") {
-                move = new Move(move.row+1,move.col);
-                direction = 1;
-              }else{
-                direction = 2;
-              }
-              console.log("firing down");
               break;
             }
           }else if(direction === 2){
@@ -72,20 +54,18 @@ export class Game{
               console.log("illegal move right");
               direction = 3;
             }else{
-              fireResult = this.fire(move.row,move.col+1);
-              if(fireResult === "hit") {
-                move = new Move(move.row,move.col+1);
-                direction = 2;
-              }else{
-                direction = 3;
-              }
-              console.log("firing right");
               break;
-
+            }
+          }else if(direction === 3){
+            if(!this.legalMove(move.row-1,move.col)){
+              console.log("illegal move up");
+              direction = 0;
+            }else{
+              break;
             }
           }
         }
-        else if(strategy === "randomSearch"){
+      }else if(strategy === "randomSearch"){
           var badGuess:boolean = false;
           do{
             randRow = Math.floor(Math.random() * this.boardRows);
