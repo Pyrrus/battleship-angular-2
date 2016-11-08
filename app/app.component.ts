@@ -15,7 +15,7 @@ import {Observable} from 'rxjs/Rx';
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf = "data.login == false"><a href='/auth/github'>Sign in with Github!</a></li>
-          <li *ngIf = "data.login == true"><a href='/logout'>Hello {{user.name}} Sign out</a></li>
+          <li *ngIf = "data.login == true"><a href='/logout'>Hello {{user.displayName}} Sign out</a></li>
         </ul>
       </div>
     </nav>

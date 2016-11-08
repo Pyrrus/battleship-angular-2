@@ -70,25 +70,7 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/user', ensureAuthenticated, function(req, res) {
-  console.log("INININININININININININ")
-  db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
-    userJson = snapshot.val();
-  }); 
-
-  if (userJson !== "") {
-    res.send(userJson);
-  } else {
-    db.ref().child('user').push({
-      name: req.user.displayName,
-      gitID: req.user.id,
-    });
-
-    db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
-      userJson = snapshot.val();
-    });
-
-    res.send(userJson);
-  }
+  res.send(req.user);
 });
 
 // index page
