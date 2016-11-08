@@ -113,14 +113,14 @@ export class AppComponent {
   public user = {};
   fire(row: number,col: number){
     this.myGame.fire(row,col);
-    // this.audio.src = "../../resources/sounds/torpedo.wav";
-    // this.audio.play();
+    this.audio.src = "../../resources/sounds/torpedo.wav";
+    this.audio.play();
   }
   newGame(){
     this.myGame = new Game(10,10);
-    // this.audio.src = "../../resources/sounds/allhandstobattle.wav";
-    // this.audio.load();
-    // this.audio.play();
+    this.audio.src = "../../resources/sounds/allhandstobattle.wav";
+    this.audio.load();
+    this.audio.play();
   }
   useAI(){
     this.myGame.useAI();
@@ -146,4 +146,4 @@ export class AppComponent {
 //cut battlestation .wav to just have "all hands to battlestations"
 //place explosion gif when sunk (repeat along ship squares)
 // put pictures of ships in place of "sunk" div. Have the ships turn red when they are sunk
-//
+// fix banner width
