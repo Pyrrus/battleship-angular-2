@@ -29,212 +29,188 @@ export class Game{
   useAI(){
     var randCol:number = 0;
     var randRow:number = 0;
-    var move:Move = null;
-    var fireResult:String = "";
+    var strategy:String = "randomSearch";
     var direction:number = 0;
-    var strategy:String = "clockwiseSearch";
+    var randomGuess:Move =
     var id = setInterval(()=>{
-      // for (var row: number = 0; row < this.boardRows; row++) {
-      //   for (var col: number = 0; col< this.boardColumns; col++) {
-      //     if (this.board[row][col].hit && !this.board[row][col].sunk) {
-      //       console.log("found un-sunken ship");
-      //       move = new Move(row,col);
-      //       break;
-      //     }
-      //   }
-      // }
-      while(move != null){
-        if(direction === 0){
-          if(!this.legalMove(move.row,move.col-1)){
-            console.log("illegal move left");
-            direction = 1;
-          }
-          else{
-            fireResult = this.fire(move.row,move.col-1);
-            if(fireResult === "hit") {
-              move = new Move(move.row,move.col-1);
-              direction = 0;
+      if(strategy === "clockwise"){
+        while(true){
+          if(direction === 0){
+            if(!this.legalMove(move.row,move.col-1)){
+              console.log("illegal move left");
+              direction = 1;
             }
             else{
-              direction = 1;
+              fireResult = this.fire(move.row,move.col-1);
+              if(fireResult === "hit") {
+                move = new Move(move.row,move.col-1);
+                direction = 0;
+              }
+              else{
+                direction = 1;
+              }
+              console.log("firing left");
+              break;
             }
-            console.log("firing left");
-            break;
-          }
-        }else if(direction === 1){
-          if(!this.legalMove(move.row+1,move.col)){
-            console.log("illegal move down");
-            direction = 2;
-          }else{
-            fireResult = this.fire(move.row+1,move.col);
-            if(fireResult === "hit") {
-              move = new Move(move.row+1,move.col);
-              direction = 1;
-            }else{
-              direction = 2;
-            }
-            console.log("firing down");
-            break;
-          }
-        }else if(direction === 2){
-          if(!this.legalMove(move.row,move.col+1)){
-            console.log("illegal move right");
-            direction = 3;
-          }else{
-            fireResult = this.fire(move.row,move.col+1);
-            if(fireResult === "hit") {
-              move = new Move(move.row,move.col+1);
+          }else if(direction === 1){
+            if(!this.legalMove(move.row+1,move.col)){
+              console.log("illegal move down");
               direction = 2;
             }else{
-              direction = 3;
+              fireResult = this.fire(move.row+1,move.col);
+              if(fireResult === "hit") {
+                move = new Move(move.row+1,move.col);
+                direction = 1;
+              }else{
+                direction = 2;
+              }
+              console.log("firing down");
+              break;
             }
-            console.log("firing right");
-            break;
-          }
-        }else if(direction === 3){
-          if(!this.legalMove(move.row-1,move.col)){
-            console.log("illegal move up");
-            direction = 0;
-          }else{
-            fireResult = this.fire(move.row-1,move.col);
-            if(fireResult === "hit") {
-              move = new Move(move.row-1,move.col);
+          }else if(direction === 2){
+            if(!this.legalMove(move.row,move.col+1)){
+              console.log("illegal move right");
               direction = 3;
             }else{
-              direction = 0;
+              fireResult = this.fire(move.row,move.col+1);
+              if(fireResult === "hit") {
+                move = new Move(move.row,move.col+1);
+                direction = 2;
+              }else{
+                direction = 3;
+              }
+              console.log("firing right");
+              break;
+
             }
-            console.log("firing up");
-            break;
           }
+        }
+        else if(strategy === "randomSearch"){
+          var badGuess:boolean = false;
+          do{
+            randRow = Math.floor(Math.random() * this.boardRows);
+            randCol = Math.floor(Math.random() * this.boardColumns);
+            badGuess = this.badMove(randRow,randCol);
+          }while(badGuess || this.board[randRow][randCol].hit === true ||
+            this.board[randRow][randCol].miss === true)
+            if(this.fire(randRow,randCol) === "hit") {
+
+            };
+          }
+          if (this.gameCompleted) {
+            // this.constructor(10,10);
+            // this.useAI();
+            clearInterval(id);
+          }
+        },100);
+      }
+
+      legalMove(row: number,col: number): boolean{
+        if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
+          return true;
+        }else{
+          return false;
         }
       }
 
-      if(move === null){
-        var badGuess:boolean = false;
-        do{
-          randRow = Math.floor(Math.random() * this.boardRows);
-          randCol = Math.floor(Math.random() * this.boardColumns);
-          badGuess = this.badMove(randRow,randCol);
-        }while(badGuess || this.board[randRow][randCol].hit === true ||
-                           this.board[randRow][randCol].miss === true)
-        if(this.fire(randRow,randCol) === "hit") {
-          move = new Move(randRow,randCol);
-        };
-      }
-      if (this.gameCompleted) {
-        // this.constructor(10,10);
-        // this.useAI();
-        clearInterval(id);
-      }
-    },1500);
-  }
-
-  legalMove(row: number,col: number): boolean{
-    if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  badMove(row: number,col: number): boolean{
-    if (col > 0 && row > 0 && col < 9 && row < 9) {
-      if (( this.board[row-1][col].miss === true || this.board[row-1][col].sunk === true ) &&
+      badMove(row: number,col: number): boolean{
+        if (col > 0 && row > 0 && col < 9 && row < 9) {
+          if (( this.board[row-1][col].miss === true || this.board[row-1][col].sunk === true ) &&
           ( this.board[row+1][col].miss === true || this.board[row+1][col].sunk === true ) &&
           ( this.board[row][col-1].miss === true || this.board[row][col-1].sunk === true ) &&
           ( this.board[row][col+1].miss === true || this.board[row][col+1].sunk === true )
+        ) {
+          return true;
+        }
+      }
+      else if(row === 0 && col === 0){
+        if ((this.board[0][1].miss || this.board[0][1].sunk) &&
+        (this.board[1][0].miss || this.board[1][0].sunk)
       ) {
         return true;
       }
-    }
-    else if(row === 0 && col === 0){
-      if ((this.board[0][1].miss || this.board[0][1].sunk) &&
-          (this.board[1][0].miss || this.board[1][0].sunk)
-       ) {
-          return true;
-      }
     }else if(row === 0 && col === 9){
       if ((this.board[0][8].miss || this.board[0][8].sunk) &&
-          (this.board[1][9].miss || this.board[1][9].sunk)
-       ) {
-          return true;
-      }
-    }else if(row === 9 && col === 9){
-      if ((this.board[8][9].miss || this.board[8][9].sunk) &&
-          (this.board[9][8].miss || this.board[9][8].sunk)
-       ) {
-          return true;
-      }
-    }else if(row === 9 && col === 0){
-      if ((this.board[8][0].miss || this.board[8][0].sunk) &&
-          (this.board[9][1].miss || this.board[9][1].sunk)
-       ) {
-          return true;
-      }
+      (this.board[1][9].miss || this.board[1][9].sunk)
+    ) {
+      return true;
     }
-    else if(row === 0 && col > 0 && col < 9){
-      if((this.board[0][col-1].miss || this.board[0][col-1].sunk) &&
-         (this.board[1][col].miss || this.board[1][col].sunk) &&
-         (this.board[0][col+1].miss || this.board[0][col+1].sunk)
-      ){
-        return true;
-      }
-    }
-    else if(row > 0 && row < 9 && col === 9){
-      if((this.board[row-1][9].miss || this.board[row-1][9].sunk) &&
-         (this.board[row+1][9].miss || this.board[row+1][9].sunk) &&
-         (this.board[row][8].miss || this.board[row][8].sunk)
-      ){
-        return true;
-      }
-    }
-    else if(row === 9 && col > 0 && col < 9){
-      if((this.board[9][col-1].miss || this.board[9][col-1].sunk) &&
-         (this.board[8][col].miss || this.board[8][col].sunk) &&
-         (this.board[9][col+1].miss || this.board[9][col+1].sunk)
-      ){
-        return true;
-      }
-    }
-    else if(row > 0 && row < 9 && col === 0){
-      if((this.board[row-1][0].miss || this.board[row-1][0].sunk) &&
-         (this.board[row+1][0].miss || this.board[row+1][0].sunk) &&
-         (this.board[row][1].miss || this.board[row][1].sunk)
-      ){
-        return true;
-      }
-    }
-    return false;
+  }else if(row === 9 && col === 9){
+    if ((this.board[8][9].miss || this.board[8][9].sunk) &&
+    (this.board[9][8].miss || this.board[9][8].sunk)
+  ) {
+    return true;
   }
+}else if(row === 9 && col === 0){
+  if ((this.board[8][0].miss || this.board[8][0].sunk) &&
+  (this.board[9][1].miss || this.board[9][1].sunk)
+) {
+  return true;
+}
+}
+else if(row === 0 && col > 0 && col < 9){
+  if((this.board[0][col-1].miss || this.board[0][col-1].sunk) &&
+  (this.board[1][col].miss || this.board[1][col].sunk) &&
+  (this.board[0][col+1].miss || this.board[0][col+1].sunk)
+){
+  return true;
+}
+}
+else if(row > 0 && row < 9 && col === 9){
+  if((this.board[row-1][9].miss || this.board[row-1][9].sunk) &&
+  (this.board[row+1][9].miss || this.board[row+1][9].sunk) &&
+  (this.board[row][8].miss || this.board[row][8].sunk)
+){
+  return true;
+}
+}
+else if(row === 9 && col > 0 && col < 9){
+  if((this.board[9][col-1].miss || this.board[9][col-1].sunk) &&
+  (this.board[8][col].miss || this.board[8][col].sunk) &&
+  (this.board[9][col+1].miss || this.board[9][col+1].sunk)
+){
+  return true;
+}
+}
+else if(row > 0 && row < 9 && col === 0){
+  if((this.board[row-1][0].miss || this.board[row-1][0].sunk) &&
+  (this.board[row+1][0].miss || this.board[row+1][0].sunk) &&
+  (this.board[row][1].miss || this.board[row][1].sunk)
+){
+  return true;
+}
+}
+return false;
+}
 
-  fire(row: number,col: number): String{
-    var selectedSquare:Square = this.board[row][col];
-    if (this.gameCompleted) {
-      return "complete";
-    }
-    if (selectedSquare.hit === false && selectedSquare.miss === false){
-      this.attempts++;
-      if (selectedSquare.ship === true) {
-        this.hitShip++;
-      }
-    }
-    var sunkCounter:number = 0;
-    var sunkBuffer:String[] = [];
+fire(row: number,col: number): String{
+  var selectedSquare:Square = this.board[row][col];
+  if (this.gameCompleted) {
+    return "complete";
+  }
+  if (selectedSquare.hit === false && selectedSquare.miss === false){
+    this.attempts++;
     if (selectedSquare.ship === true) {
-      this.board[row][col].hit = true;
-      for (var i: number = 0; i < this.boardRows; i++) {
-        for (var j: number = 0; j< this.boardColumns; j++) {
-          if(this.board[i][j].id === selectedSquare.id && this.board[i][j].hit === true){
-            sunkBuffer.push(String(i)+String(j));
-            sunkCounter++;
-          }
+      this.hitShip++;
+    }
+  }
+  var sunkCounter:number = 0;
+  var sunkBuffer:String[] = [];
+  if (selectedSquare.ship === true) {
+    this.board[row][col].hit = true;
+    for (var i: number = 0; i < this.boardRows; i++) {
+      for (var j: number = 0; j< this.boardColumns; j++) {
+        if(this.board[i][j].id === selectedSquare.id && this.board[i][j].hit === true){
+          sunkBuffer.push(String(i)+String(j));
+          sunkCounter++;
         }
       }
-      if (sunkCounter == 2 && selectedSquare.id == 0 ||
-          sunkCounter == 3 && selectedSquare.id == 1 ||
-          sunkCounter == 3 && selectedSquare.id == 2 ||
-          sunkCounter == 4 && selectedSquare.id == 3 ||
-          sunkCounter == 5 && selectedSquare.id == 4) {
+    }
+    if (sunkCounter == 2 && selectedSquare.id == 0 ||
+      sunkCounter == 3 && selectedSquare.id == 1 ||
+      sunkCounter == 3 && selectedSquare.id == 2 ||
+      sunkCounter == 4 && selectedSquare.id == 3 ||
+      sunkCounter == 5 && selectedSquare.id == 4) {
         for (let i = 0; i < sunkBuffer.length; i++) {
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
         }
@@ -301,9 +277,9 @@ export class Game{
               randomSuccess = false;
             }
           }
-          }else {
-            randomSuccess = false;
-          }
+        }else {
+          randomSuccess = false;
+        }
       }while(randomSuccess === false)
       for (let i = 0; i < size; i++) {
         this.board[randRow+i][randCol].ship = true;
