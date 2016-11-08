@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Square } from './square.model';
 import { Game } from './game.model';
-import { Http, Response, Jsonp } from '@angular/http';
+import { Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
 @Component({
@@ -115,6 +115,24 @@ export class AppComponent {
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
+  if (this.myGame.hitShip === 1) {
+      // this.win()
+    }
+  }
+  win() {
+  	var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      this.http
+        .post('/savescore' + body, {
+            headers: headers
+          })
+          .subscribe(data => {
+             console.log('Save')
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+
   }
   newGame(){
     this.myGame = new Game(10,10);
@@ -131,10 +149,12 @@ export class AppComponent {
           this.data = res.json();
       });
 
-      this.http.request('/user')
-        .subscribe((res: Response) => {
-          this.user = res.json();
-      });
+      if (this.data.login){
+      	this.http.request('/user')
+	        .subscribe((res: Response) => {
+	          this.user = res.json();
+	      });
+      }
   }
 }
 
