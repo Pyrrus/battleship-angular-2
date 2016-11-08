@@ -105,7 +105,7 @@ body{
     background-color:	#204f7c;
     float: right;
     width: 19%;
-    height: 591px;
+    height: 400px;
     .btn{
       background-color: $map-color;
       &:hover{
@@ -113,9 +113,10 @@ body{
       }
     }
     #ships{
-      margin-top: 20px;
-      padding: 10px 5px 5px 10px;
+      margin-top: 10px;
+      padding: 10px 25px 5px 10px;
       background-color: $navy-blue;
+      height: 350px;
       ul{
         padding-left: 0px;
         li{
@@ -123,14 +124,14 @@ body{
           display:inline;
           color: white;
           width: 250px;
-          height: 50px;
+          height: 100px;
         }
       }
     }
     #attempts{
       background-color: $water-blue ;
+      margin-top: 10px;
       ul{
-        margin: 0px;
         padding-left: 0px;
         li{
           font-size: 18px;

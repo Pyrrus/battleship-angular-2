@@ -67,11 +67,11 @@ import {Observable} from 'rxjs/Rx';
     <div class= "well" id="score-board">
     <div class="well" id="ships" align="center">
       <ul>
-        <li>Carrier: {{ myGame.carrier}}</li>
-        <li>Battleship: {{ myGame.battleship}}</li>
-        <li>Cruiser: {{ myGame.cruiser}}</li>
-        <li>Submarine: {{ myGame.submarine}}</li>
-        <li>Destroyer: {{ myGame.destroyer}}</li>
+        <li>Carrier: <img class="img-responsive" src="../../resources/img/BattleCruiser.png"></li><br>
+        <li>Cruiser: <img class="img-responsive" src="../../resources/img/2X1.png"></li>
+        <li>Battleship: <img class="img-responsive" src="../../resources/img/Cruiser.png"></li>
+        <li>Submarine: <img class="img-responsive" src="../../resources/img/submarine.png"></li>
+        <li>Destroyer: <img class="img-responsive" src="../../resources/img/Ship1.png"></li>
       </ul>
     </div>
     <div class="well" id="attempts">
@@ -130,3 +130,5 @@ export class AppComponent {
 //cut winning sound to be short
 //cut battlestation .wav to just have "all hands to battlestations"
 //place explosion gif when sunk (repeat along ship squares)
+// put pictures of ships in place of "sunk" div. Have the ships turn red when they are sunk
+//
