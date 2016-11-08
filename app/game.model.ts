@@ -29,75 +29,66 @@ export class Game{
     var randCol:number = 0;
     var randRow:number = 0;
     var guessSuccess:boolean = false;
-    var lastMove:Square = null;
-    var lastColMove:number = 0;
-    var lastRowMove:number = 0;
-    var lastRandHitCol: number = 0;
-    var lastRandHitRow: number = 0;
+    var selectedHit:Square = null;
+    var moveLeftNext:boolean = true;
+    var moveRightNext:boolean = true;
+    var moveUpNext:boolean = true;
+    var moveDownNext:boolean = true;
+    var fireResult:String = "";
     var id = setInterval(()=>{
       guessSuccess = false;
-      lastMove = this.board[lastRowMove][lastColMove];
-      if (lastMove.hit && !lastMove.sunk && lastColMove < 9) {
-        if (this.board[lastRowMove][lastColMove+1].hit === false &&
-            this.board[lastRowMove][lastColMove+1].miss === false) {
-          randCol = lastColMove+1;
-          randRow = lastRowMove;
-          if (this.badMove(randRow,randCol)) {
-            guessSuccess = false;
-          }else{
-            guessSuccess = true;
-          }
-          if (this.board[randRow][randCol].ship) {
-            lastColMove = randCol;
-            lastRowMove = randRow;
-          }
-        }
-      }
-      if (lastMove.hit && !lastMove.sunk && lastColMove > 0) {
-        if (this.board[lastRowMove][lastColMove-1].hit === false &&
-            this.board[lastRowMove][lastColMove-1].miss === false) {
-          randCol = lastColMove-1;
-          randRow = lastRowMove;
-          if (this.badMove(randRow,randCol)) {
-            guessSuccess = false;
-          }else{
-            guessSuccess = true;
-          }
-          if (this.board[randRow][randCol].ship) {
-            lastColMove = randCol;
-            lastRowMove = randRow;
-          }
-        }
-      }
-      if (lastMove.hit && !lastMove.sunk && lastRowMove < 9) {
-        if (this.board[lastRowMove+1][lastColMove].hit === false &&
-            this.board[lastRowMove+1][lastColMove].miss === false) {
-          randCol = lastColMove;
-          randRow = lastRowMove+1;
-          if (this.badMove(randRow,randCol)) {
-            guessSuccess = false;
-          }else{
-            guessSuccess = true;
-          }
-          if (this.board[randRow][randCol].ship) {
-            lastColMove = randCol;
-            lastRowMove = randRow;
-          }
-        }
-      }
-      if (lastMove.hit && !lastMove.sunk && lastRowMove > 0) {
-        if (this.board[lastRowMove-1][lastColMove].hit === false &&
-            this.board[lastRowMove-1][lastColMove].miss === false) {
-          randCol = lastColMove;
-          randRow = lastRowMove-1
-          if (this.badMove(randRow,randCol)) {
-            guessSuccess = false;
-          }else{
-            guessSuccess = true;
-          }
-          if (this.board[randRow][randCol].ship) {
-            lastColMove = randCol;
-            lastRowMove = randRow;
+      for (var row: number = 0; row < this.boardRows; row++) {
+        for (var col: number = 0; col< this.boardColumns; col++) {
+          if (this.board[row][col].hit && !this.board[row][col].sunk) {
+            selectedHit = this.board[row][col].hit;
+            moveLeftNext = true;
+            moveRightNext = true;
+            moveUpNext = true;
+            moveDownNext = true;
+            //move left
+            if (col > 0 &&
+              this.board[row][col-1].hit === false &&
+              this.board[row][col-1].miss === false &&
+              moveLeftNext && !guessSuccess) {
+              guessSuccess = true;
+              fireResult = this.fire(row,col-1);
+              if (fireResult !== "hit" || fireResult === "sunk"){
+                moveLeftNext = false;
+              }
+            }
+            //move right
+            if (col < 9 &&
+              this.board[row][col+1].hit === false &&
+              this.board[row][col+1].miss === false &&
+              moveRightNext && !guessSuccess) {
+              guessSuccess = true;
+              fireResult = this.fire(row,col+1);
+              if (fireResult !== "hit" || fireResult === "sunk"){
+                moveRightNext = false;
+              }
+            }
+            //move up
+            if (row > 0 &&
+              this.board[row-1][col].hit === false &&
+              this.board[row-1][col].miss === false &&
+              moveUpNext && !guessSuccess) {
+              guessSuccess = true;
+              fireResult = this.fire(row-1,col);
+              if (fireResult !== "hit" || fireResult === "sunk"){
+                moveUpNext = false;
+              }
+            }
+            //move down
+            if (row < 9 &&
+              this.board[row+1][col].hit === false &&
+              this.board[row+1][col].miss === false &&
+              moveDownNext && !guessSuccess) {
+              guessSuccess = true;
+              fireResult = this.fire(row+1,col);
+              if (fireResult !== "hit" || fireResult === "sunk"){
+                moveDownNext = false;
+              }
+            }
           }
         }
       }
@@ -109,18 +100,14 @@ export class Game{
           badGuess = this.badMove(randRow,randCol);
         }while(badGuess || this.board[randRow][randCol].hit === true ||
                            this.board[randRow][randCol].miss === true)
-        lastColMove = randCol;
-        lastRowMove = randRow;
-        lastRandHitRow = randRow;
-        lastRandHitCol = randCol;
+        this.fire(randRow,randCol);
       }
-      var result = this.fire(randRow,randCol);
       if (this.gameCompleted) {
         this.constructor(10,10);
         this.useAI();
         clearInterval(id);
       }
-    },500);
+    },100);
   }
 
   badMove(row: number,col: number): boolean{
