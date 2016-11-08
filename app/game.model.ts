@@ -12,6 +12,8 @@ export class Game{
   public destroyer: String = "not-sunk";
   public lastColMove:number = 0;
   public lastRowMove:number = 0;
+  public lastRandHitCol: number = 0;
+  public lastRandHitRow: number = 0;
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -155,10 +157,12 @@ export class Game{
              this.board[randRow][randCol].miss === true)
         this.lastColMove = randCol;
         this.lastRowMove = randRow;
+        this.lastRandHitRow = randRow;
+        this.lastRandHitCol = randCol;
       }
 
+
       this.fire(randRow,randCol);
-      console.log("hello!!");
       if (this.gameCompleted) {
         this.constructor(10,10);
         this.useAI();

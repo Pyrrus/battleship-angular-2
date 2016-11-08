@@ -23,7 +23,7 @@ import {Observable} from 'rxjs/Rx';
     <img id="banner" src="../resources/img/Banner.png">
 
     <div class="well" id="map-well">
-      <table id="game-board" align="center">
+      <table id="game-board" class="table-responsive" align="center">
         <tr>
           <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
           <td align="center" *ngFor="let foo of dummyArray; let index = index"
@@ -59,7 +59,7 @@ import {Observable} from 'rxjs/Rx';
           [class.ship]="myGame.board[row][col].ship"
           [class.beautify-background]="true"
           >
-          <i style="font-size:49px;color:#ff6666;opacity:1!important;" *ngIf="myGame.board[row][col].miss" class="fa fa-times-circle" aria-hidden="true"></i>
+          <i style="font-size:47px;color:#ff6666;opacity:1!important;" *ngIf="myGame.board[row][col].miss" class="fa fa-times-circle" aria-hidden="true"></i>
           </td>
         </tr>
       </table>
