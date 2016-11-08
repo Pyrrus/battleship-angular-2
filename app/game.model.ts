@@ -42,12 +42,13 @@ export class Game{
               direction = 1;
             }else{
               console.log("firing left");
-              direction = 1;
               fireResult = this.fire(move.row,move.col-1);
               if (fireResult === "hit") {
                 strategy = "lengthwise";
               }else if(fireResult === "sunk"){
                 strategy = "random";
+              }else{
+                direction = 1;
               }
               break;
             }
@@ -57,8 +58,14 @@ export class Game{
               direction = 2;
             }else{
               console.log("firing up");
-              direction = 2;
               fireResult = this.fire(move.row-1,move.col);
+              if (fireResult === "hit") {
+                strategy = "lengthwise";
+              }else if(fireResult === "sunk"){
+                strategy = "random";
+              }else{
+                direction = 2;
+              }
               break;
             }
           }else if(direction === 2){
@@ -67,8 +74,14 @@ export class Game{
               direction = 3;
             }else{
               console.log("firing right");
-              direction = 3;
               fireResult = this.fire(move.row,move.col+1);
+              if (fireResult === "hit") {
+                strategy = "lengthwise";
+              }else if(fireResult === "sunk"){
+                strategy = "random";
+              }else{
+                direction = 3;
+              }
               break;
             }
           }else if(direction === 3){
@@ -77,14 +90,20 @@ export class Game{
               direction = 0;
             }else{
               console.log("firing down");
-              direction = 0;
               fireResult = this.fire(move.row+1,move.col);
+              if (fireResult === "hit") {
+                strategy = "lengthwise";
+              }else if(fireResult === "sunk"){
+                strategy = "random";
+              }else{
+                direction = 0;                
+              }
               break;
             }
           }
         }
       }else if(strategy === "lengthwise"){
-
+        console.log("got here direction is" + direction);
 
       }else if(strategy === "random"){
           var badGuess:boolean = false;
