@@ -70,7 +70,7 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/user', ensureAuthenticated, function(req, res) {
-  
+  console.log("INININININININININININ")
   db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
     userJson = snapshot.val();
   }); 
@@ -116,9 +116,13 @@ app.post('/savescore', ensureAuthenticated, function(req, res){
   }); 
 });
 
+app.get('/error', function(req, res) {
+  res.send('{"error": "error"}');
+});
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/')
+  res.redirect('/error')
 }
 
 var server = app.listen(30000, function () {

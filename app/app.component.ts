@@ -110,7 +110,7 @@ export class AppComponent {
   public myGame:Game = new Game(10,10);
   public audio = new Audio();
   public data = {"login" : false};
-  public user = {};
+  public user = "";
   fire(row: number,col: number){
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
@@ -149,13 +149,10 @@ export class AppComponent {
         .subscribe((res: Response) => {
           this.data = res.json();
       });
-
-      if (this.data.login){
-      	this.http.request('/user')
-	        .subscribe((res: Response) => {
-	          this.user = res.json();
+      this.http.request('/user')
+	      .subscribe((res: Response) => {
+	        this.user = res.json();
 	      });
-      }
   }
 }
 
