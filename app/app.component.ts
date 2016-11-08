@@ -67,11 +67,26 @@ import {Observable} from 'rxjs/Rx';
     <div class= "well" id="score-board">
     <div class="well" id="ships" align="center">
       <ul>
-        <li>Carrier: <img class="img-responsive" src="../../resources/img/BattleCruiser.png"></li><br>
-        <li>Cruiser: <img class="img-responsive" src="../../resources/img/2X1.png"></li>
-        <li>Battleship: <img class="img-responsive" src="../../resources/img/Cruiser.png"></li>
-        <li>Submarine: <img class="img-responsive" src="../../resources/img/submarine.png"></li>
-        <li>Destroyer: <img class="img-responsive" src="../../resources/img/Ship1.png"></li>
+        <li>Destroyer:
+        <img *ngIf = "!myGame.destroyerSunk" class="img-responsive" src="../../resources/img/2X1.png">
+        <img *ngIf = "myGame.destroyerSunk" class="img-responsive" src="../../resources/img/SunkTug.png">
+        </li>
+        <li>Submarine:
+        <img *ngIf = "!myGame.submarineSunk" class="img-responsive" src="../../resources/img/submarine.png">
+        <img *ngIf = "myGame.submarineSunk" class="img-responsive" src="../../resources/img/SunkSub.png">
+        </li>
+        <li>Cruiser:
+        <img *ngIf = "!myGame.cruiserSunk" class="img-responsive" src="../../resources/img/Cruiser.png">
+        <img *ngIf = "myGame.cruiserSunk" class="img-responsive" src="../../resources/img/SunkCruiser.png">
+        </li>
+        <li>Battleship:
+        <img *ngIf = "!myGame.battleshipSunk" class="img-responsive" src="../../resources/img/BattleCruiser.png">
+        <img *ngIf = "myGame.battleshipSunk" class="img-responsive" src="../../resources/img/SunkBattleship.png">
+        </li>
+        <li>Carrier:
+        <img *ngIf = "!myGame.carrierSunk" class="img-responsive" src="../../resources/img/Ship1.png">
+        <img *ngIf = "myGame.carrierSunk" class="img-responsive" src="../../resources/img/Ship1.png">
+        </li>
       </ul>
     </div>
     <div class="well" id="attempts">

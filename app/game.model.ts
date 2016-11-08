@@ -5,11 +5,11 @@ export class Game{
   public attempts:number = 0;
   public hitShip: number = 0;
   public gameCompleted: boolean = false;
-  public carrier: String = "not-sunk";
-  public battleship: String = "not-sunk";
-  public cruiser: String = "not-sunk";
-  public submarine: String = "not-sunk";
-  public destroyer: String = "not-sunk";
+  public carrierSunk: boolean = false;
+  public battleshipSunk: boolean = false;
+  public cruiserSunk: boolean = false;
+  public submarineSunk: boolean = false;
+  public destroyerSunk: boolean = false;
   public lastColMove:number = 0;
   public lastRowMove:number = 0;
   public lastRandHitCol: number = 0;
@@ -202,15 +202,15 @@ export class Game{
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
         }
         if (selectedSquare.id === 0) {
-          this.destroyer = "sunk";
+          this.destroyerSunk = true;
         } else if(selectedSquare.id === 1) {
-          this.submarine = "sunk";
+          this.submarineSunk = true;
         } else if(selectedSquare.id === 2) {
-          this.cruiser = "sunk";
+          this.cruiserSunk = true;
         } else if(selectedSquare.id === 3) {
-          this.battleship = "sunk";
+          this.battleshipSunk = true;
         } else {
-          this.carrier = "sunk";
+          this.carrierSunk = true;
         }
       }
     }
