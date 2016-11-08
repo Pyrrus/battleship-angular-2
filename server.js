@@ -96,14 +96,24 @@ app.get('/', function(req, res) {
 });
 
 app.post('/savescore', function(req, res){
- console.log("INININININININININININININ INININININ");
-  var attempts =req.query['attempts'] || 'default';
-  var hits = req.query['hits'] || 'default';
-  console.log(attempts + ' ' + hits);
-  // db.ref().child('user').push({
-  //     name: req.user.displayName,
-  //     gitID: req.user.id,
-  //   });
+  var attempts =req.query['attempts'];
+  var hits = req.query['hits'];
+
+  db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(user) {
+    var scoreData = {
+      attempts: attempts,
+      hits: hits,
+      name: user.val().name,
+      userID: user.key,
+    };
+
+    var newScoreKey = db.ref().child('scores').push().key;
+    var updates = {};
+    updates['/scores/' + newScoreKey] = scoreData;
+    updates['/user/' + user.key + '/scores/' + newScoreKey] = scoreData;
+
+    return db.ref().update(updates);
+  }); 
 });
 
 function ensureAuthenticated(req, res, next) {
