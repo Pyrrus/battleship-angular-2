@@ -129,7 +129,7 @@ export class AppComponent {
     // TODO put logic to test return value of fire method and play correct sound (fire returns "sunk", "hit", or "miss")
     var x = this.myGame.fire(row,col);
     if(x === "miss") {
-      this.audio.src = "../../resources/sounds/splash.wav";
+      this.audio.src = "../../resources/sounds/splash.mp3";
       this.audio.play();
     }else if(x === "sunk" && this.myGame.gameCompleted === false){
       this.audio.src = "../../resources/sounds/explosion.mp3";
