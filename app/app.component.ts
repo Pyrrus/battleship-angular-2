@@ -112,6 +112,7 @@ export class AppComponent {
   public data = {"login" : false};
   public user = "";
   fire(row: number,col: number){
+    // TODO put logic to test return value of fire method and play correct sound (fire returns "sunk", "hit", or "miss")
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();

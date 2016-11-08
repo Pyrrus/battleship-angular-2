@@ -29,10 +29,10 @@ export class Game{
   useAI(){
     var randCol:number = 0;
     var randRow:number = 0;
-    var strategy:String = "randomSearch";
+    var strategy:String = "random";
     var direction:number = 0;
-    var randomGuess:Move = null;
     var move:Move = null;
+    var fireResult:String;
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
         while(true){
@@ -41,13 +41,24 @@ export class Game{
               console.log("illegal move left");
               direction = 1;
             }else{
+              console.log("firing left");
+              direction = 1;
+              fireResult = this.fire(move.row,move.col-1);
+              if (fireResult === "hit") {
+                strategy = "lengthwise";
+              }else if(fireResult === "sunk"){
+                strategy = "random";
+              }
               break;
             }
           }else if(direction === 1){
-            if(!this.legalMove(move.row+1,move.col)){
-              console.log("illegal move down");
+            if(!this.legalMove(move.row-1,move.col)){
+              console.log("illegal move up");
               direction = 2;
             }else{
+              console.log("firing up");
+              direction = 2;
+              fireResult = this.fire(move.row-1,move.col);
               break;
             }
           }else if(direction === 2){
@@ -55,18 +66,27 @@ export class Game{
               console.log("illegal move right");
               direction = 3;
             }else{
+              console.log("firing right");
+              direction = 3;
+              fireResult = this.fire(move.row,move.col+1);
               break;
             }
           }else if(direction === 3){
-            if(!this.legalMove(move.row-1,move.col)){
-              console.log("illegal move up");
+            if(!this.legalMove(move.row+1,move.col)){
+              console.log("illegal move down");
               direction = 0;
             }else{
+              console.log("firing down");
+              direction = 0;
+              fireResult = this.fire(move.row+1,move.col);
               break;
             }
           }
         }
-      }else if(strategy === "randomSearch"){
+      }else if(strategy === "lengthwise"){
+
+
+      }else if(strategy === "random"){
           var badGuess:boolean = false;
           do{
             randRow = Math.floor(Math.random() * this.boardRows);
@@ -75,15 +95,16 @@ export class Game{
           }while(badGuess || this.board[randRow][randCol].hit === true ||
             this.board[randRow][randCol].miss === true)
             if(this.fire(randRow,randCol) === "hit") {
-
-            };
+              strategy = "clockwise";
+              move = new Move(randRow,randCol);
+            }
           }
           if (this.gameCompleted) {
             // this.constructor(10,10);
             // this.useAI();
             clearInterval(id);
           }
-        },100);
+        },1000);
       }
 
       legalMove(row: number,col: number): boolean{
@@ -188,10 +209,10 @@ fire(row: number,col: number): String{
       }
     }
     if (sunkCounter == 2 && selectedSquare.id == 0 ||
-      sunkCounter == 3 && selectedSquare.id == 1 ||
-      sunkCounter == 3 && selectedSquare.id == 2 ||
-      sunkCounter == 4 && selectedSquare.id == 3 ||
-      sunkCounter == 5 && selectedSquare.id == 4) {
+        sunkCounter == 3 && selectedSquare.id == 1 ||
+        sunkCounter == 3 && selectedSquare.id == 2 ||
+        sunkCounter == 4 && selectedSquare.id == 3 ||
+        sunkCounter == 5 && selectedSquare.id == 4) {
         for (let i = 0; i < sunkBuffer.length; i++) {
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
         }
