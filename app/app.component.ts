@@ -120,19 +120,20 @@ export class AppComponent {
     }
   }
   win() {
-  	var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      this.http
-        .post('/savescore' + body, {
-            headers: headers
-          })
-          .subscribe(data => {
-             console.log('Save')
-          }, error => {
-              console.log(JSON.stringify(error.json()));
-          });
-
+  	if (this.data.login) {
+  	  var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
+	    var headers = new Headers();
+	    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	      this.http
+	        .post('/savescore' + body, {
+	            headers: headers
+	          })
+	          .subscribe(data => {
+	             console.log('Save')
+	          }, error => {
+	              console.log(JSON.stringify(error.json()));
+	          });
+  	}
   }
   newGame(){
     this.myGame = new Game(10,10);

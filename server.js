@@ -95,7 +95,7 @@ app.get('/user', ensureAuthenticated, function(req, res) {
 app.get('/', function(req, res) {
 });
 
-app.post('/savescore', function(req, res){
+app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
   var hits = req.query['hits'];
 
