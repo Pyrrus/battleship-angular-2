@@ -110,7 +110,7 @@ export class AppComponent {
   public myGame:Game = new Game(10,10);
   public audio = new Audio();
   public data = {"login" : false};
-  public user = {};
+  public user = "";
   fire(row: number,col: number){
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
@@ -120,19 +120,20 @@ export class AppComponent {
     }
   }
   win() {
-  	var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      this.http
-        .post('/savescore' + body, {
-            headers: headers
-          })
-          .subscribe(data => {
-             console.log('Save')
-          }, error => {
-              console.log(JSON.stringify(error.json()));
-          });
-
+  	if (this.data.login) {
+  	  var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
+	    var headers = new Headers();
+	    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+	      this.http
+	        .post('/savescore' + body, {
+	            headers: headers
+	          })
+	          .subscribe(data => {
+	             console.log('Save')
+	          }, error => {
+	              console.log(JSON.stringify(error.json()));
+	          });
+  	}
   }
   newGame(){
     this.myGame = new Game(10,10);
@@ -148,13 +149,10 @@ export class AppComponent {
         .subscribe((res: Response) => {
           this.data = res.json();
       });
-
-      if (this.data.login){
-      	this.http.request('/user')
-	        .subscribe((res: Response) => {
-	          this.user = res.json();
+      this.http.request('/user')
+	      .subscribe((res: Response) => {
+	        this.user = res.json();
 	      });
-      }
   }
 }
 

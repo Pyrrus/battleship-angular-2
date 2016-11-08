@@ -70,7 +70,7 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/user', ensureAuthenticated, function(req, res) {
-  
+  console.log("INININININININININININ")
   db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(snapshot) {
     userJson = snapshot.val();
   }); 
@@ -95,20 +95,34 @@ app.get('/user', ensureAuthenticated, function(req, res) {
 app.get('/', function(req, res) {
 });
 
-app.post('/savescore', function(req, res){
- console.log("INININININININININININININ INININININ");
-  var attempts =req.query['attempts'] || 'default';
-  var hits = req.query['hits'] || 'default';
-  console.log(attempts + ' ' + hits);
-  // db.ref().child('user').push({
-  //     name: req.user.displayName,
-  //     gitID: req.user.id,
-  //   });
+app.post('/savescore', ensureAuthenticated, function(req, res){
+  var attempts =req.query['attempts'];
+  var hits = req.query['hits'];
+
+  db.ref("/user").orderByChild("gitID").equalTo(req.user.id).on("child_added", function(user) {
+    var scoreData = {
+      attempts: attempts,
+      hits: hits,
+      name: user.val().name,
+      userID: user.key,
+    };
+
+    var newScoreKey = db.ref().child('scores').push().key;
+    var updates = {};
+    updates['/scores/' + newScoreKey] = scoreData;
+    updates['/user/' + user.key + '/scores/' + newScoreKey] = scoreData;
+
+    return db.ref().update(updates);
+  }); 
+});
+
+app.get('/error', function(req, res) {
+  res.send('{"error": "error"}');
 });
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/')
+  res.redirect('/error')
 }
 
 var server = app.listen(30000, function () {
