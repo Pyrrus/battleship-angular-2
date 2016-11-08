@@ -118,7 +118,7 @@ export class AppComponent {
   }
   newGame(){
     this.myGame = new Game(10,10);
-    this.audio.src = "../../resources/sounds/allhandstobattle.wav";
+    this.audio.src = "../../resources/sounds/allhandstobattle.mp3";
     this.audio.load();
     this.audio.play();
   }
