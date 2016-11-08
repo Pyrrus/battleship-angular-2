@@ -85,7 +85,7 @@ import {Observable} from 'rxjs/Rx';
         </li>
         <li>Carrier:
         <img *ngIf = "!myGame.carrierSunk" class="img-responsive" src="../../resources/img/Ship1.png">
-        <img *ngIf = "myGame.carrierSunk" class="img-responsive" src="../../resources/img/Ship1.png">
+        <img *ngIf = "myGame.carrierSunk" class="img-responsive" src="../../resources/img/SunkTanker.png">
         </li>
       </ul>
     </div>
