@@ -96,7 +96,7 @@ export class Game{
               }else if(fireResult === "sunk"){
                 strategy = "random";
               }else{
-                direction = 0;                
+                direction = 0;
               }
               break;
             }
@@ -104,7 +104,36 @@ export class Game{
         }
       }else if(strategy === "lengthwise"){
         console.log("got here direction is" + direction);
-
+        if(direction === 0){
+          if(!this.legalMove(move.row,move.col-1)){
+            console.log("illegal move left");
+          }else{
+            console.log("firing left");
+            this.fire(move.row,move.col-1);
+          }
+        }else if(direction === 1){
+          if(!this.legalMove(move.row-1,move.col)){
+            console.log("illegal move up");
+          }else{
+            console.log("firing up");
+            this.fire(move.row-1,move.col);
+          }
+        }else if(direction === 2){
+          if(!this.legalMove(move.row,move.col+1)){
+            console.log("illegal move right");
+          }else{
+            console.log("firing right");
+            this.fire(move.row,move.col+1);
+          }
+        }else if(direction === 3){
+          if(!this.legalMove(move.row+1,move.col)){
+            console.log("illegal move down");
+            direction = 0;
+          }else{
+            console.log("firing down");
+            this.fire(move.row+1,move.col);
+          }
+        }
       }else if(strategy === "random"){
           var badGuess:boolean = false;
           do{
