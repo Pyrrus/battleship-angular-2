@@ -1,4 +1,5 @@
 import { Square } from './square.model';
+import { Move } from './move.model';
 
 export class Game{
   public board = {};
@@ -28,71 +29,66 @@ export class Game{
   useAI(){
     var randCol:number = 0;
     var randRow:number = 0;
-    var guessSuccess:boolean = false;
-    var selectedHit:Square = null;
-    var moveLeftNext:boolean = true;
-    var moveRightNext:boolean = true;
-    var moveUpNext:boolean = true;
-    var moveDownNext:boolean = true;
+    var move:Move = null;
     var fireResult:String = "";
+    var direction:number = 0;
+    var strategy:String = "clockwiseSearch";
     var id = setInterval(()=>{
-      guessSuccess = false;
       for (var row: number = 0; row < this.boardRows; row++) {
         for (var col: number = 0; col< this.boardColumns; col++) {
           if (this.board[row][col].hit && !this.board[row][col].sunk) {
-            selectedHit = this.board[row][col].hit;
-            moveLeftNext = true;
-            moveRightNext = true;
-            moveUpNext = true;
-            moveDownNext = true;
-            //move left
-            if (col > 0 &&
-              this.board[row][col-1].hit === false &&
-              this.board[row][col-1].miss === false &&
-              moveLeftNext && !guessSuccess) {
-              guessSuccess = true;
-              fireResult = this.fire(row,col-1);
-              if (fireResult !== "hit" || fireResult === "sunk"){
-                moveLeftNext = false;
-              }
-            }
-            //move right
-            if (col < 9 &&
-              this.board[row][col+1].hit === false &&
-              this.board[row][col+1].miss === false &&
-              moveRightNext && !guessSuccess) {
-              guessSuccess = true;
-              fireResult = this.fire(row,col+1);
-              if (fireResult !== "hit" || fireResult === "sunk"){
-                moveRightNext = false;
-              }
-            }
-            //move up
-            if (row > 0 &&
-              this.board[row-1][col].hit === false &&
-              this.board[row-1][col].miss === false &&
-              moveUpNext && !guessSuccess) {
-              guessSuccess = true;
-              fireResult = this.fire(row-1,col);
-              if (fireResult !== "hit" || fireResult === "sunk"){
-                moveUpNext = false;
-              }
-            }
-            //move down
-            if (row < 9 &&
-              this.board[row+1][col].hit === false &&
-              this.board[row+1][col].miss === false &&
-              moveDownNext && !guessSuccess) {
-              guessSuccess = true;
-              fireResult = this.fire(row+1,col);
-              if (fireResult !== "hit" || fireResult === "sunk"){
-                moveDownNext = false;
-              }
-            }
+            console.log("found un-sunken ship");
+            move = new Move(row,col);
+            break;
           }
         }
       }
-      if(guessSuccess === false){
+      while(move != null){
+        if(direction === 0){
+          if(!this.legalMove(move.row,move.col-1)){
+            console.log("illegal move left");
+            direction = 1;
+          }
+          else{
+            this.fire(move.row,move.col-1);
+            direction = 1;
+            console.log("firing left");
+            break;
+          }
+        }else if(direction === 1){
+          if(!this.legalMove(move.row+1,move.col)){
+            console.log("illegal move up");
+            direction = 2;
+          }else{
+            this.fire(move.row+1,move.col);
+            direction = 2;
+            console.log("firing up");
+            break;
+          }
+        }else if(direction === 2){
+          if(!this.legalMove(move.row,move.col+1)){
+            console.log("illegal move right");
+            direction = 3;
+          }else{
+            this.fire(move.row,move.col+1);
+            direction = 3;
+            console.log("firing right");
+            break;
+          }
+        }else if(direction === 3){
+          if(!this.legalMove(move.row-1,move.col)){
+            console.log("illegal move down");
+            direction = 0;
+          }else{
+            this.fire(move.row-1,move.col);
+            direction = 0;
+            console.log("firing down");
+            break;
+          }
+        }
+      }
+
+      if(move === null){
         var badGuess:boolean = false;
         do{
           randRow = Math.floor(Math.random() * this.boardRows);
@@ -103,11 +99,19 @@ export class Game{
         this.fire(randRow,randCol);
       }
       if (this.gameCompleted) {
-        this.constructor(10,10);
-        this.useAI();
+        // this.constructor(10,10);
+        // this.useAI();
         clearInterval(id);
       }
-    },100);
+    },1500);
+  }
+
+  legalMove(row: number,col: number): boolean{
+    if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   badMove(row: number,col: number): boolean{
