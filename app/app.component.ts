@@ -82,7 +82,7 @@ import {Observable} from 'rxjs/Rx';
         </tr>
       </table>
       <br>
-      <button *ngIf= "!hideHigh" class="btn pull-left" (click)="showHigh()">Show Highscore</button>
+      <button *ngIf= "!hideHigh" class="btn pull-left btn-information" (click)="showHigh()">Show Highscore</button>
       <button *ngIf= "hideHigh" class="btn pull-left" (click)="closeHigh()">Close Highscore</button>
       <span *ngIf = "data.login == true">
 	      <button *ngIf= "!hideUser" class="btn pull-right" (click)="showUser()">Show User Score</button>
@@ -141,6 +141,7 @@ export class AppComponent {
   public userScore = "";
   public hideHigh = false;
   public hideUser = false;
+  //On page load play Great Sea
   fire(row: number,col: number){
     if(!this.myGame.gameCompleted){
       var x = this.myGame.fire(row,col);
@@ -154,6 +155,8 @@ export class AppComponent {
         this.audio.src = "../../resources/sounds/torpedo.wav";
         this.audio.play();
       }else if (this.myGame.gameCompleted) {
+        // this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
+        // this.audio.stop();
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
   	    this.win();
@@ -220,9 +223,6 @@ export class AppComponent {
   }
 }
 
-//All the sounds are in the sounds folder. Just need to add them!
 //BDD to-do list
 //Add attempt limit to get losing screen
-//add winning sounds (Have the sound, just need the instance to pair!)
-//add "sunk" and "hit" instances in order to pair the sounds
 //place explosion gif when sunk (repeat along ship squares)

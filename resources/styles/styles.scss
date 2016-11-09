@@ -3,12 +3,13 @@ $map-color : darken(#FFDEAD,5%);
 $light-green: #e6ffcc;
 $water-blue: #66ccff;
 body{
-  background-image: url('https://images.unsplash.com/photo-1474267119072-677dd7959e96?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&s=646fe3670917d21d9453f421b0aad0da');
+  background-image: url('../../resources/img/WindwakerBG.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #173859;
   #map-well{
     background-image: url('../../resources/img/Ocean.png');
+    opacity: 0.7;
     background-size: cover;
     background-position: center;
     margin-top: 10px;
@@ -17,11 +18,14 @@ body{
     width: 79%;
     #game-board{
       border-collapse: separate;
+      opacity: 1;
+      z-index: 1;
       .rotate{
         -webkit-transform: rotate(90deg);
       }
       td{
         background-color: rgb(102,204,255);
+        opacity: 1;
         border-style: solid;
         border-width: 1px 1px 1px 1px;
         border-color: #000;
@@ -153,5 +157,9 @@ body{
         }
       }
     }
+  }
+  #linkShip {
+    width: 500px;
+    height: 300px;
   }
 }
