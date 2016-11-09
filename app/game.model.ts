@@ -34,15 +34,16 @@ export class Game{
     var move:Move = null;
     var lastRandomMove:Move = null;
     var fireResult:String;
+    var possibleRogueShipMoves:Move [];
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
       for (let i = 0; i < 4; i++) {
           if(direction === 0){
             if(!this.legalMove(move.row,move.col-1)){
-              console.log("illegal move left");
+              console.log("illegal move left clockwise row: " + move.row + " col: " + (move.col-1));
               direction = 1;
             }else{
-              console.log("firing left");
+              console.log("firing left row: " + move.row + "col: " + move.col);
               fireResult = this.fire(move.row,move.col-1);
               if (fireResult === "hit") {
                 move = new Move(move.row,move.col-1);
@@ -56,10 +57,10 @@ export class Game{
             }
           }else if(direction === 1){
             if(!this.legalMove(move.row-1,move.col)){
-              console.log("illegal move up");
+              console.log("illegal move up clockwise row: " + (move.row-1) + " col: " + move.col);
               direction = 2;
             }else{
-              console.log("firing up");
+              console.log("firing up row: " + move.row + "col: " + move.col);
               fireResult = this.fire(move.row-1,move.col);
               if (fireResult === "hit") {
                 move = new Move(move.row-1,move.col);
@@ -73,10 +74,10 @@ export class Game{
             }
           }else if(direction === 2){
             if(!this.legalMove(move.row,move.col+1)){
-              console.log("illegal move right");
+              console.log("illegal move right clockwise row: " + move.row + " col: " + (move.col+1));
               direction = 3;
             }else{
-              console.log("firing right");
+              console.log("firing right row: " + move.row + "col: " + move.col);
               fireResult = this.fire(move.row,move.col+1);
               if (fireResult === "hit") {
                 move = new Move(move.row,move.col+1);
@@ -90,10 +91,10 @@ export class Game{
             }
           }else if(direction === 3){
             if(!this.legalMove(move.row+1,move.col)){
-              console.log("illegal move down");
+              console.log("illegal move down clockwise row: " + (move.row+1) + " col: " + move.col);
               direction = 0;
             }else{
-              console.log("firing down");
+              console.log("firing down row: " + move.row + "col: " + move.col);
               fireResult = this.fire(move.row+1,move.col);
               if (fireResult === "hit") {
                 move = new Move(move.row+1,move.col);
@@ -112,11 +113,11 @@ export class Game{
       }else if(strategy === "lengthwise"){
         if(direction === 0){
           if(!this.legalMove(move.row,move.col-1)){
-            console.log("illegal move left");
+            console.log("illegal move left lengthwise");
             strategy = "reverse";
             direction = 2;
           }else{
-            console.log("firing left");
+            console.log("firing left lengthwise row: " + move.row + "col: " + move.col);
             fireResult = this.fire(move.row,move.col-1);
             if (fireResult === "hit") {
               move = new Move(move.row,move.col-1);
@@ -130,11 +131,11 @@ export class Game{
           }
         }else if(direction === 1){
           if(!this.legalMove(move.row-1,move.col)){
-            console.log("illegal move up");
+            console.log("illegal move up lengthwise");
             strategy = "reverse";
             direction = 3;
           }else{
-            console.log("firing up");
+            console.log("firing up lengthwise row: " + move.row + "col: " + move.col);
             fireResult = this.fire(move.row-1,move.col);
             if (fireResult === "hit") {
               move = new Move(move.row-1,move.col);
@@ -148,11 +149,11 @@ export class Game{
           }
         }else if(direction === 2){
           if(!this.legalMove(move.row,move.col+1)){
-            console.log("illegal move right");
+            console.log("illegal move right lengthwise");
             strategy = "reverse";
             direction = 0;
           }else{
-            console.log("firing right");
+            console.log("firing right lengthwise row: " + move.row + "col: " + move.col);
             fireResult = this.fire(move.row,move.col+1);
             if (fireResult === "hit") {
               move = new Move(move.row,move.col+1);
@@ -166,11 +167,11 @@ export class Game{
           }
         }else if(direction === 3){
           if(!this.legalMove(move.row+1,move.col)){
-            console.log("illegal move down");
+            console.log("illegal move down lengthwise row: " + move.row + "col: " + move.col);
             strategy = "reverse";
             direction = 1;
           }else{
-            console.log("firing down");
+            console.log("firing down lengthwise");
             fireResult = this.fire(move.row+1,move.col);
             if (fireResult === "hit") {
               move = new Move(move.row+1,move.col);
@@ -252,14 +253,15 @@ export class Game{
            for (var col: number = 0; col< this.boardColumns; col++) {
             if (this.board[row][col].hit && !this.board[row][col].sunk) {
               console.log("found un-sunken ship at row: " + row + " col: " + col);
-              move = new Move(row,col);
-              lastRandomMove = move;
+              possibleRogueShipMoves.push(new Move(row,col));
               strategy = "clockwise";
               direction = Math.floor(Math.random() * 4);
               break;
             }
           }
         }
+        move = possibleRogueShipMoves[Math.floor(Math.random()*possibleRogueShipMoves.length)];
+        possibleRogueShipMoves = [];
         if (strategy === "random") {
           var badGuess:boolean = false;
           do{
@@ -286,7 +288,7 @@ export class Game{
 
   legalMove(row: number,col: number): boolean{
     if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
-      if(this.board[row][col].sunk){
+      if(this.board[row][col].sunk || this.board[row][col].miss || this.board[row][col].hit){
         return false;
       }
       return true;
