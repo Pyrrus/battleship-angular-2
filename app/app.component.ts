@@ -139,9 +139,10 @@ export class AppComponent {
   public hideHigh = false;
   public hideUser = false;
   fire(row: number,col: number){
+    // TODO put logic to test return value of fire method and play correct sound (fire returns "sunk", "hit", or "miss")
     var x = this.myGame.fire(row,col);
     if(x === "miss") {
-      this.audio.src = "../../resources/sounds/splash.wav";
+      this.audio.src = "../../resources/sounds/splash.mp3";
       this.audio.play();
     }else if(x === "sunk" && this.myGame.gameCompleted === false){
       this.audio.src = "../../resources/sounds/explosion.mp3";
@@ -152,8 +153,13 @@ export class AppComponent {
     }else if (this.myGame.gameCompleted === true) {
       this.audio.src = "../../resources/sounds/winner.mp3";
       this.audio.play();
-      this.win();
-    }
+    this.myGame.fire(row,col);
+    this.audio.src = "../../resources/sounds/torpedo.wav";
+    this.audio.play();
+}
+  // if (this.myGame.hitShip === 17) {
+  //     this.win();
+  //   }
   }
   win() {
   	if (this.data.login) {
