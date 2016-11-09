@@ -134,6 +134,7 @@ export class AppComponent {
   public audio = new Audio();
   public data = {"login" : false};
   public user = "";
+  public save = "";
   public highScore = "";
   public userScore = "";
   public hideHigh = false;
@@ -153,13 +154,8 @@ export class AppComponent {
     }else if (this.myGame.gameCompleted === true) {
       this.audio.src = "../../resources/sounds/winner.mp3"; //does not play winner sound :(
       this.audio.play();
-    this.myGame.fire(row,col);
-    this.audio.src = "../../resources/sounds/torpedo.wav";
-    this.audio.play();
-}
-  if (this.myGame.hitShip === 17) {
-      this.win();
-    }
+	  this.win();
+	}
   }
   win() {
   	if (this.data.login) {
@@ -170,9 +166,9 @@ export class AppComponent {
 	        .post('/savescore' + body, {
 	            headers: headers
 	          })
-	          .subscribe(data => {
-	             console.log('Save')
-	          }, error => {
+	          .subscribe((res: Response) => {
+		          this.save = res.json();
+		      }, error => {
 	              console.log(JSON.stringify(error.json()));
 	          });
   	}

@@ -112,6 +112,7 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
 app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
   var hits = req.query['hits'];
+  console.log("hits " + hits + " attempts: " + attempts)
     var scoreData = {
       attempts: attempts,
       hits: hits,
@@ -120,6 +121,7 @@ app.post('/savescore', ensureAuthenticated, function(req, res){
     };
 
     db.ref().child('scores').push(scoreData);
+    res.send('{"save": "save"}');
 });
 
 app.get('/error', function(req, res) {
