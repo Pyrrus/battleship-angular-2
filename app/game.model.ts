@@ -247,107 +247,102 @@ export class Game{
         }
       }
       else if(strategy === "random"){
-          var badGuess:boolean = false;
-          do{
-            randRow = Math.floor(Math.random() * this.boardRows);
-            randCol = Math.floor(Math.random() * this.boardColumns);
-            badGuess = this.badMove(randRow,randCol);
-          }while(badGuess || this.board[randRow][randCol].hit === true ||
-            this.board[randRow][randCol].miss === true)
-            if(this.fire(randRow,randCol) === "hit") {
-              strategy = "clockwise";
-              move = new Move(randRow,randCol);
-              lastRandomMove = move;
-            }
+        var badGuess:boolean = false;
+        do{
+          randRow = Math.floor(Math.random() * this.boardRows);
+          randCol = Math.floor(Math.random() * this.boardColumns);
+          badGuess = this.badMove(randRow,randCol);
+        }while(badGuess || this.board[randRow][randCol].hit === true ||
+          this.board[randRow][randCol].miss === true)
+          if(this.fire(randRow,randCol) === "hit") {
+            strategy = "clockwise";
+            move = new Move(randRow,randCol);
+            lastRandomMove = move;
           }
-          if (this.gameCompleted) {
-            this.constructor(10,10);
-            this.useAI();
-            clearInterval(id);
-          }
-        },1);
-      }
-
-      legalMove(row: number,col: number): boolean{
-        if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
-          // if(this.board[row][col].sunk){
-          //   return false;
-          // }
-          return true;
-        }else{
-          return false;
         }
+      if (this.gameCompleted) {
+        this.constructor(10,10);
+        this.useAI();
+        clearInterval(id);
       }
+    },100);
+  }
 
-      badMove(row: number,col: number): boolean{
-        if (col > 0 && row > 0 && col < 9 && row < 9) {
-          if (( this.board[row-1][col].miss === true || this.board[row-1][col].sunk === true ) &&
-          ( this.board[row+1][col].miss === true || this.board[row+1][col].sunk === true ) &&
-          ( this.board[row][col-1].miss === true || this.board[row][col-1].sunk === true ) &&
-          ( this.board[row][col+1].miss === true || this.board[row][col+1].sunk === true )
-        ) {
-          return true;
-        }
+  legalMove(row: number,col: number): boolean{
+    if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
+      // if(this.board[row][col].sunk){
+      //   return false;
+      // }
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  badMove(row: number,col: number): boolean{
+    if (col > 0 && row > 0 && col < 9 && row < 9) {
+      if (( this.board[row-1][col].miss === true || this.board[row-1][col].sunk === true ) &&
+      ( this.board[row+1][col].miss === true || this.board[row+1][col].sunk === true ) &&
+      ( this.board[row][col-1].miss === true || this.board[row][col-1].sunk === true ) &&
+      ( this.board[row][col+1].miss === true || this.board[row][col+1].sunk === true )
+      ) {
+        return true;
       }
-      else if(row === 0 && col === 0){
-        if ((this.board[0][1].miss || this.board[0][1].sunk) &&
-        (this.board[1][0].miss || this.board[1][0].sunk)
+    }else if(row === 0 && col === 0){
+      if ((this.board[0][1].miss || this.board[0][1].sunk) &&
+      (this.board[1][0].miss || this.board[1][0].sunk)
       ) {
         return true;
       }
     }else if(row === 0 && col === 9){
       if ((this.board[0][8].miss || this.board[0][8].sunk) &&
       (this.board[1][9].miss || this.board[1][9].sunk)
-    ) {
-      return true;
+      ) {
+        return true;
+      }
+    }else if(row === 9 && col === 9){
+      if ((this.board[8][9].miss || this.board[8][9].sunk) &&
+      (this.board[9][8].miss || this.board[9][8].sunk)
+      ) {
+        return true;
+      }
+    }else if(row === 9 && col === 0){
+      if ((this.board[8][0].miss || this.board[8][0].sunk) &&
+      (this.board[9][1].miss || this.board[9][1].sunk)
+      ) {
+        return true;
+      }
+    }else if(row === 0 && col > 0 && col < 9){
+      if((this.board[0][col-1].miss || this.board[0][col-1].sunk) &&
+      (this.board[1][col].miss || this.board[1][col].sunk) &&
+      (this.board[0][col+1].miss || this.board[0][col+1].sunk)
+      ){
+        return true;
+      }
+    }else if(row > 0 && row < 9 && col === 9){
+      if((this.board[row-1][9].miss || this.board[row-1][9].sunk) &&
+      (this.board[row+1][9].miss || this.board[row+1][9].sunk) &&
+      (this.board[row][8].miss || this.board[row][8].sunk)
+      ){
+        return true;
+      }
+    }else if(row === 9 && col > 0 && col < 9){
+      if((this.board[9][col-1].miss || this.board[9][col-1].sunk) &&
+      (this.board[8][col].miss || this.board[8][col].sunk) &&
+      (this.board[9][col+1].miss || this.board[9][col+1].sunk)
+      ){
+        return true;
+      }
+    }else if(row > 0 && row < 9 && col === 0){
+      if((this.board[row-1][0].miss || this.board[row-1][0].sunk) &&
+      (this.board[row+1][0].miss || this.board[row+1][0].sunk) &&
+      (this.board[row][1].miss || this.board[row][1].sunk)
+      ){
+        return true;
+      }
     }
-  }else if(row === 9 && col === 9){
-    if ((this.board[8][9].miss || this.board[8][9].sunk) &&
-    (this.board[9][8].miss || this.board[9][8].sunk)
-  ) {
-    return true;
+    return false;
   }
-}else if(row === 9 && col === 0){
-  if ((this.board[8][0].miss || this.board[8][0].sunk) &&
-  (this.board[9][1].miss || this.board[9][1].sunk)
-) {
-  return true;
-}
-}
-else if(row === 0 && col > 0 && col < 9){
-  if((this.board[0][col-1].miss || this.board[0][col-1].sunk) &&
-  (this.board[1][col].miss || this.board[1][col].sunk) &&
-  (this.board[0][col+1].miss || this.board[0][col+1].sunk)
-){
-  return true;
-}
-}
-else if(row > 0 && row < 9 && col === 9){
-  if((this.board[row-1][9].miss || this.board[row-1][9].sunk) &&
-  (this.board[row+1][9].miss || this.board[row+1][9].sunk) &&
-  (this.board[row][8].miss || this.board[row][8].sunk)
-){
-  return true;
-}
-}
-else if(row === 9 && col > 0 && col < 9){
-  if((this.board[9][col-1].miss || this.board[9][col-1].sunk) &&
-  (this.board[8][col].miss || this.board[8][col].sunk) &&
-  (this.board[9][col+1].miss || this.board[9][col+1].sunk)
-){
-  return true;
-}
-}
-else if(row > 0 && row < 9 && col === 0){
-  if((this.board[row-1][0].miss || this.board[row-1][0].sunk) &&
-  (this.board[row+1][0].miss || this.board[row+1][0].sunk) &&
-  (this.board[row][1].miss || this.board[row][1].sunk)
-){
-  return true;
-}
-}
-return false;
-}
 
 fire(row: number,col: number): String{
   var selectedSquare:Square = this.board[row][col];
@@ -373,10 +368,10 @@ fire(row: number,col: number): String{
       }
     }
     if (sunkCounter == 2 && selectedSquare.id == 0 ||
-        sunkCounter == 3 && selectedSquare.id == 1 ||
-        sunkCounter == 3 && selectedSquare.id == 2 ||
-        sunkCounter == 4 && selectedSquare.id == 3 ||
-        sunkCounter == 5 && selectedSquare.id == 4) {
+      sunkCounter == 3 && selectedSquare.id == 1 ||
+      sunkCounter == 3 && selectedSquare.id == 2 ||
+      sunkCounter == 4 && selectedSquare.id == 3 ||
+      sunkCounter == 5 && selectedSquare.id == 4) {
         for (let i = 0; i < sunkBuffer.length; i++) {
           this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
         }
