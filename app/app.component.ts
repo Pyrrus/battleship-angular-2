@@ -21,6 +21,9 @@ import {Observable} from 'rxjs/Rx';
     </nav>
 
     <img id="banner" src="../resources/img/Banner.png">
+    <br>
+      <p>Click the play button to listen to the theme!</p>
+      </br>
       <audio controls>
         <source src="../../resources/sounds/GreatSeaWW.mp3" type="audio/mp3">
       </audio>
@@ -225,10 +228,5 @@ export class AppComponent {
 	      .subscribe((res: Response) => {
 	        this.user = res.json();
 	  });
-    // this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
-    // this.audio.play();
   }
 }
-//BDD to-do list
-//Add attempt limit to get losing screen
-//place explosion gif when sunk (repeat along ship squares)
