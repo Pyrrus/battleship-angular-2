@@ -27,74 +27,18 @@ import {Observable} from 'rxjs/Rx';
       <div *ngIf = "hideHigh">
       	<div class="well">
       	 <h2>Highscore for the battleship</h2>
-      	 <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>
-                  Rank
-                </th>
-                <th>
-                  Name
-                </th>
-                <th>
-                  Attempts
-                </th>
-                <th>
-                  Time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor = "let highScore of highScore; let i = index">
-                <td>
-                  {{i + 1}}
-                </td>
-                <td>
-                  {{highScore.name}}
-                </td>
-                <td>
-                  {{highScore.attempts}}
-                </td>
-                <td>
-                  {{highScore.time}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      	 <ol>
+      	 	<li *ngFor = "let highScore of highScore">Attempts: {{highScore.attempts}} by {{highScore.name}} at {{highScore.time}}</li>
+      	 </ol>
       	</div>
       </div>
       <div *ngIf = "hideUser">
       	<div class="well">
       	<h2>{{user.displayName}} score for the battleship</h2>
         <h3>Hit ratio: {{userScore | avg }}%</h3>
-      	 <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>
-                  Rank
-                </th>
-                <th>
-                  Attempts
-                </th>
-                <th>
-                  Time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor = "let userScore of userScore; let i = index">
-                <td>
-                  {{i + 1}}
-                </td>
-                <td>
-                  {{userScore.attempts}}
-                </td>
-                <td>
-                  {{userScore.time}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      	 <ol>
+      	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}} at {{userScore.time}}</li>
+      	 </ol>
       	</div>
       </div>
       <table *ngIf = "!hideHigh && !hideUser" id="game-board" class="table-responsive" align="center">
@@ -181,6 +125,9 @@ import {Observable} from 'rxjs/Rx';
       <button class="btn" (click)="useAI()">Use AI</button>
     </div>
   </div>
+  <div class="container" id="license">
+  <p><strong>The music and images are originally licensed by Nintendo. The images are digitally vectored re-creations of the original game art for Legend of Zelda: Wind Waker. This game and the media are being used for educational purposes only! Enjoy the game!</strong></p>
+  </div>
   `
 })
 
@@ -197,7 +144,6 @@ export class AppComponent {
   public userScore = "";
   public hideHigh = false;
   public hideUser = false;
-  //On page load play Great Sea
   fire(row: number,col: number){
     if(!this.myGame.gameCompleted){
       var x = this.myGame.fire(row,col);
@@ -211,8 +157,6 @@ export class AppComponent {
         this.audio.src = "../../resources/sounds/torpedo.wav";
         this.audio.play();
       }else if (this.myGame.gameCompleted) {
-        // this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
-        // this.audio.stop();
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
   	    this.win();
@@ -276,9 +220,10 @@ export class AppComponent {
 	      .subscribe((res: Response) => {
 	        this.user = res.json();
 	  });
+    this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
+    this.audio.play();
   }
 }
-
 //BDD to-do list
 //Add attempt limit to get losing screen
 //place explosion gif when sunk (repeat along ship squares)
