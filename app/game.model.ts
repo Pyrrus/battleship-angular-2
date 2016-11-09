@@ -36,7 +36,7 @@ export class Game{
     var fireResult:String;
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
-        while(true){
+      for (let i = 0; i < 4; i++) {
           if(direction === 0){
             if(!this.legalMove(move.row,move.col-1)){
               console.log("illegal move left");
@@ -105,10 +105,11 @@ export class Game{
               }
               break;
             }
+          }else{
+            strategy = "random";
           }
         }
       }else if(strategy === "lengthwise"){
-        console.log("got here direction is" + direction);
         if(direction === 0){
           if(!this.legalMove(move.row,move.col-1)){
             console.log("illegal move left");
@@ -247,32 +248,47 @@ export class Game{
         }
       }
       else if(strategy === "random"){
-        var badGuess:boolean = false;
-        do{
-          randRow = Math.floor(Math.random() * this.boardRows);
-          randCol = Math.floor(Math.random() * this.boardColumns);
-          badGuess = this.badMove(randRow,randCol);
-        }while(badGuess || this.board[randRow][randCol].hit === true ||
-          this.board[randRow][randCol].miss === true)
+        for (var row: number = 0; row < this.boardRows; row++) {
+           for (var col: number = 0; col< this.boardColumns; col++) {
+            if (this.board[row][col].hit && !this.board[row][col].sunk) {
+              console.log("found un-sunken ship at row: " + row + " col: " + col);
+              move = new Move(row,col);
+              lastRandomMove = move;
+              strategy = "clockwise";
+              direction = Math.floor(Math.random() * 4);
+              break;
+            }
+          }
+        }
+        if (strategy === "random") {
+          var badGuess:boolean = false;
+          do{
+            randRow = Math.floor(Math.random() * this.boardRows);
+            randCol = Math.floor(Math.random() * this.boardColumns);
+            badGuess = this.badMove(randRow,randCol);
+          }while(badGuess || this.board[randRow][randCol].hit === true ||
+                             this.board[randRow][randCol].miss === true)
           if(this.fire(randRow,randCol) === "hit") {
             strategy = "clockwise";
+            direction = Math.floor(Math.random() * 4);
             move = new Move(randRow,randCol);
             lastRandomMove = move;
           }
         }
+      }
       if (this.gameCompleted) {
         this.constructor(10,10);
         this.useAI();
         clearInterval(id);
       }
-    },100);
+    },1);
   }
 
   legalMove(row: number,col: number): boolean{
     if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
-      // if(this.board[row][col].sunk){
-      //   return false;
-      // }
+      if(this.board[row][col].sunk){
+        return false;
+      }
       return true;
     }else{
       return false;
