@@ -120,7 +120,6 @@ app.post('/savescore', ensureAuthenticated, function(req, res){
     };
 
     db.ref().child('scores').push(scoreData);
-    console.log("save");
 });
 
 app.get('/error', function(req, res) {
