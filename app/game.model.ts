@@ -32,6 +32,7 @@ export class Game{
     var strategy:String = "random";
     var direction:number = 0;
     var move:Move = null;
+    var lastRandomMove:Move = null;
     var fireResult:String;
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
@@ -44,6 +45,7 @@ export class Game{
               console.log("firing left");
               fireResult = this.fire(move.row,move.col-1);
               if (fireResult === "hit") {
+                move = new Move(move.row,move.col-1);
                 strategy = "lengthwise";
               }else if(fireResult === "sunk"){
                 strategy = "random";
@@ -60,6 +62,7 @@ export class Game{
               console.log("firing up");
               fireResult = this.fire(move.row-1,move.col);
               if (fireResult === "hit") {
+                move = new Move(move.row-1,move.col);
                 strategy = "lengthwise";
               }else if(fireResult === "sunk"){
                 strategy = "random";
@@ -76,6 +79,7 @@ export class Game{
               console.log("firing right");
               fireResult = this.fire(move.row,move.col+1);
               if (fireResult === "hit") {
+                move = new Move(move.row,move.col+1);
                 strategy = "lengthwise";
               }else if(fireResult === "sunk"){
                 strategy = "random";
@@ -92,6 +96,7 @@ export class Game{
               console.log("firing down");
               fireResult = this.fire(move.row+1,move.col);
               if (fireResult === "hit") {
+                move = new Move(move.row+1,move.col);
                 strategy = "lengthwise";
               }else if(fireResult === "sunk"){
                 strategy = "random";
@@ -107,34 +112,141 @@ export class Game{
         if(direction === 0){
           if(!this.legalMove(move.row,move.col-1)){
             console.log("illegal move left");
+            strategy = "reverse";
+            direction = 2;
           }else{
             console.log("firing left");
-            this.fire(move.row,move.col-1);
+            fireResult = this.fire(move.row,move.col-1);
+            if (fireResult === "hit") {
+              move = new Move(move.row,move.col-1);
+            }else if(fireResult === "miss"){
+              strategy = "reverse";
+              move = lastRandomMove;
+              direction = 2;
+            }else{
+              strategy = "random";
+            }
           }
         }else if(direction === 1){
           if(!this.legalMove(move.row-1,move.col)){
             console.log("illegal move up");
+            strategy = "reverse";
+            direction = 3;
           }else{
             console.log("firing up");
-            this.fire(move.row-1,move.col);
+            fireResult = this.fire(move.row-1,move.col);
+            if (fireResult === "hit") {
+              move = new Move(move.row-1,move.col);
+            }else if(fireResult === "miss"){
+              strategy = "reverse";
+              move = lastRandomMove;
+              direction = 3;
+            }else{
+              strategy = "random";
+            }
           }
         }else if(direction === 2){
           if(!this.legalMove(move.row,move.col+1)){
             console.log("illegal move right");
+            strategy = "reverse";
+            direction = 0;
           }else{
             console.log("firing right");
-            this.fire(move.row,move.col+1);
+            fireResult = this.fire(move.row,move.col+1);
+            if (fireResult === "hit") {
+              move = new Move(move.row,move.col+1);
+            }else if(fireResult === "miss"){
+              strategy = "reverse";
+              move = lastRandomMove;
+              direction = 0;
+            }else{
+              strategy = "random";
+            }
           }
         }else if(direction === 3){
           if(!this.legalMove(move.row+1,move.col)){
             console.log("illegal move down");
-            direction = 0;
+            strategy = "reverse";
+            direction = 1;
           }else{
             console.log("firing down");
-            this.fire(move.row+1,move.col);
+            fireResult = this.fire(move.row+1,move.col);
+            if (fireResult === "hit") {
+              move = new Move(move.row+1,move.col);
+            }else if(fireResult === "miss"){
+              strategy = "reverse";
+              move = lastRandomMove;
+              direction = 1;
+            }else{
+              strategy = "random";
+            }
           }
         }
-      }else if(strategy === "random"){
+      }else if(strategy === "reverse"){
+        console.log("reversing direction is: " + direction);
+        if(direction === 0){
+          if(!this.legalMove(move.row,move.col-1)){
+            console.log("illegal move left");
+            strategy = "random";
+          }else{
+            console.log("firing left");
+            fireResult = this.fire(move.row,move.col-1);
+            if (fireResult === "hit") {
+              move = new Move(move.row,move.col-1);
+            }else if(fireResult === "miss"){
+              strategy = "random";
+            }else{
+              strategy = "random";
+            }
+          }
+        }else if(direction === 1){
+          if(!this.legalMove(move.row-1,move.col)){
+            console.log("illegal move up");
+            strategy = "random";
+          }else{
+            console.log("firing up");
+            fireResult = this.fire(move.row-1,move.col);
+            if (fireResult === "hit") {
+              move = new Move(move.row-1,move.col);
+            }else if(fireResult === "miss"){
+              strategy = "random";
+            }else{
+              strategy = "random";
+            }
+          }
+        }else if(direction === 2){
+          if(!this.legalMove(move.row,move.col+1)){
+            console.log("illegal move right");
+            strategy = "random";
+          }else{
+            console.log("firing right");
+            fireResult = this.fire(move.row,move.col+1);
+            if (fireResult === "hit") {
+              move = new Move(move.row,move.col+1);
+            }else if(fireResult === "miss"){
+              strategy = "random";
+            }else{
+              strategy = "random";
+            }
+          }
+        }else if(direction === 3){
+          if(!this.legalMove(move.row+1,move.col)){
+            console.log("illegal move down");
+            strategy = "random";
+          }else{
+            console.log("firing down");
+            fireResult = this.fire(move.row+1,move.col);
+            if (fireResult === "hit") {
+              move = new Move(move.row+1,move.col);
+            }else if(fireResult === "miss"){
+              strategy = "random";
+            }else{
+              strategy = "random";
+            }
+          }
+        }
+      }
+      else if(strategy === "random"){
           var badGuess:boolean = false;
           do{
             randRow = Math.floor(Math.random() * this.boardRows);
@@ -145,18 +257,22 @@ export class Game{
             if(this.fire(randRow,randCol) === "hit") {
               strategy = "clockwise";
               move = new Move(randRow,randCol);
+              lastRandomMove = move;
             }
           }
           if (this.gameCompleted) {
-            // this.constructor(10,10);
-            // this.useAI();
+            this.constructor(10,10);
+            this.useAI();
             clearInterval(id);
           }
-        },1000);
+        },1);
       }
 
       legalMove(row: number,col: number): boolean{
         if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
+          // if(this.board[row][col].sunk){
+          //   return false;
+          // }
           return true;
         }else{
           return false;

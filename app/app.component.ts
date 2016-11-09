@@ -165,11 +165,11 @@ export class AppComponent {
   	}
   }
   showHigh() {
-  	this.http.request('/highscore')
-	      .subscribe((res: Response) => {
-	        this.highScore = res.json();
-	  });
-  	this.hideHigh = true;
+  	// this.http.request('/highscore')
+	  //     .subscribe((res: Response) => {
+	  //       this.highScore = res.json();
+	  // });
+  	// this.hideHigh = true;
 
   }
   newGame(){
@@ -192,15 +192,15 @@ export class AppComponent {
 	        this.user = res.json();
 	  });
 
-	  this.http.request('/highscore')
-	      .subscribe((res: Response) => {
-	        this.highScore = res.json();
-	  });
-
-	  this.http.request('/userscore')
-	      .subscribe((res: Response) => {
-	        this.userScore = res.json();
-	  });
+	  // this.http.request('/highscore')
+	  //     .subscribe((res: Response) => {
+	  //       this.highScore = res.json();
+	  // });
+    //
+	  // this.http.request('/userscore')
+	  //     .subscribe((res: Response) => {
+	  //       this.userScore = res.json();
+	  // });
   }
 }
 
