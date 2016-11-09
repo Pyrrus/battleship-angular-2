@@ -7,7 +7,6 @@ var path = require('path');
 var dotenv = require('dotenv').config();
 var firebase = require('firebase');
 var moment = require('moment');
-var userJson = "";
 
 firebase.initializeApp({
   apiKey: dotenv.apiKey,
@@ -58,7 +57,6 @@ app.get('/auth/github/callback',
 // logout page
 app.get('/logout', function(req, res){
   req.logout();
-  userJson = "";
   res.redirect('/');
 });
 
@@ -103,7 +101,7 @@ app.get('/highscore', function(req, res) {
     for (var i = 0; i < highscore.length; i++) {
       highscore[i].time = moment(highscore[i].time).format('MMMM Do YYYY, h:mm:ss a');
     }
-    
+
     res.send(highscore);
   });
 });

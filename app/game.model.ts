@@ -281,7 +281,7 @@ export class Game{
         this.useAI();
         clearInterval(id);
       }
-    },1);
+    },1000);
   }
 
   legalMove(row: number,col: number): boolean{
