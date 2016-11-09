@@ -35,6 +35,7 @@ import {Observable} from 'rxjs/Rx';
       <div *ngIf = "hideUser">
       	<div class="well">
       	<h2>{{user.displayName}} score for the battleship</h2>
+        <h3>Hit ratio: {{userScore | avg }}%</h3>
       	 <ol>
       	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}} at {{userScore.time}}</li>
       	 </ol>

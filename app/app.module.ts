@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { AppComponent }   from './app.component';
 import { HttpModule, JsonpModule } from '@angular/http';
-
+import { AvgPipe } from './avg.pipe'; // import our pipe here
 @NgModule({
   imports: [
     BrowserModule,
@@ -12,7 +12,8 @@ import { HttpModule, JsonpModule } from '@angular/http';
     JsonpModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    AvgPipe
   ],
   bootstrap:    [ AppComponent ]
 })
