@@ -21,6 +21,9 @@ import {Observable} from 'rxjs/Rx';
     </nav>
 
     <img id="banner" src="../resources/img/Banner.png">
+      <audio controls>
+        <source src="../../resources/sounds/GreatSeaWW.mp3" type="audio/mp3">
+      </audio>
 
     <div class="well" id="map-well">
 
@@ -159,8 +162,9 @@ export class AppComponent {
       }else if (this.myGame.gameCompleted) {
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
+        setTimeout(function(){ alert("you win"); }, 1000);
   	    this.win();
-        setTimeout(function(){ alert("you win"); }, 10);
+
   	  }
     }
   }
@@ -204,7 +208,7 @@ export class AppComponent {
   }
   newGame(){
     this.myGame = new Game(10,10);
-    this.audio.src = "../../resources/sounds/allhandstobattle.mp3";
+    this.audio.src = "../../resources/sounds/newgame.mp3";
     this.audio.load();
     this.audio.play();
   }
@@ -221,8 +225,8 @@ export class AppComponent {
 	      .subscribe((res: Response) => {
 	        this.user = res.json();
 	  });
-    this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
-    this.audio.play();
+    // this.audio.src = "../../resources/sounds/GreatSeaWW.mp3";
+    // this.audio.play();
   }
 }
 //BDD to-do list
