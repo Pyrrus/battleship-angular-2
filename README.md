@@ -1,12 +1,12 @@
 ![banner](https://github.com/Pyrrus/battleship-angular-2/blob/master/resources/img/Banner.png)
 
-#### _Battleship, USS Epicodus, November 7th-November 10th 2016_
+#### _The Legend of Battleship, November 7th-November 10th 2016_
 
 #### By _Amber Farrington, Yusuf Qedan, Jonathan Toler, and Adam Gorbahn_
 
 ## Description
 
-_This app is a Battleship game using the Angular 2 framework! Play against another person or play against the computer! "You Sunk my Battleship!"_
+_This app is a Battleship game using the Angular 2 framework! Play against another person or watch the AI play! "You Sunk my Battleship!"_
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd ember-msg`
+* `cd <repository-url>`
 * `npm install`
 * `bower install`
 
@@ -28,7 +28,7 @@ You will need the following things properly installed on your computer.
 (Note: This app uses Express! The steps below will help you load this app!)
 
 * `gulp build`
-* Open a new tab, and execute the command `node server js` (Keep this tab open)
+* Open a new tab (Alt + T for Mac, have to open a new terminal window for Windows using "start cmd .exe"), and execute the command `node server js` (Keep this tab open)
 * Visit your app at [http://localhost:30000](http://localhost:30000).
 
 ## Specs
@@ -53,6 +53,7 @@ You will need the following things properly installed on your computer.
 
 * Example Input: Player can let the AI playout games by pressing the 'use AI' button.
 * Example Output: The AI will keep playing games, from which the player can view. 
+
 ### License
 
 *This application is licensed under the MIT license*
