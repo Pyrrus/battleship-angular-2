@@ -45,6 +45,14 @@ You will need the following things properly installed on your computer.
 * Example Input: Player sinks all ships
 * Example Output: Win Sound plays and Alert Pops
 
+* Example Input: Player can view the total high score by clicking the 'show highscore' button.
+* Example Output: Will show a list of the every score stored in the database. Scores are displayed in order of best with a timestamp for when the score was reached.
+
+* Example Input: Player can view their own person stats by clicking the 'show user score' button.
+* Example Output: shows the user's all time highscores, hit ratio, and timestamp for when the they reach that score.
+
+* Example Input: Player can let the AI playout games by pressing the 'use AI' button.
+* Example Output: The AI will keep playing games, from which the player can view. 
 ### License
 
 *This application is licensed under the MIT license*
