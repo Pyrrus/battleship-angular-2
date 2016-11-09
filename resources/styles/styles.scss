@@ -9,7 +9,6 @@ body{
   background-color: #173859;
   #map-well{
     background-image: url('../../resources/img/Ocean.png');
-    opacity: 0.7;
     background-size: cover;
     background-position: center;
     margin-top: 10px;
@@ -158,8 +157,10 @@ body{
       }
     }
   }
-  #linkShip {
-    width: 500px;
-    height: 300px;
+  #license {
+   background-color: $water-blue;
+   padding: 10px 10px;
+   border: 3px solid white;
+  //  color: white;
   }
 }
