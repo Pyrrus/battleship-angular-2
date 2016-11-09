@@ -163,8 +163,8 @@ export class AppComponent {
       }else if (this.myGame.gameCompleted) {
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
-        setTimeout(function(){ alert("you win"); }, 1000);
-        this.audio.pause();
+        var that = this;
+        setTimeout(function(){ alert("you win"); that.audio.pause(); }, 1000);
   	    this.win();
 
   	  }
