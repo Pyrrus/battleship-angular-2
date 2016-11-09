@@ -111,13 +111,13 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
 
 app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
-  var hits = req.query['hits'];
-  console.log("hits " + hits + " attempts: " + attempts)
+  var date = new Date()
+  var currentDate = date.toISOString();
     var scoreData = {
       attempts: attempts,
-      hits: hits,
       name: req.user.displayName,
-      gitID: req.user.id,
+      time: currentDate,
+      gitID: req.user.id
     };
 
     db.ref().child('scores').push(scoreData);

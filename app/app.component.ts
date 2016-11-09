@@ -159,7 +159,7 @@ export class AppComponent {
   }
   win() {
   	if (this.data.login) {
-  	  var body = '?attempts=' + this.myGame.attempts + '&hits=' + this.myGame.hitShip;
+  	  var body = '?attempts=' + this.myGame.attempts;
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/x-www-form-urlencoded');
 	      this.http
