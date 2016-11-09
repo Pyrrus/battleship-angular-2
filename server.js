@@ -86,16 +86,24 @@ app.get('/highscore', function(req, res) {
      highscore.push(data.val());
     });
     highscore.sort(function(a, b) {
-      if (a.attempts > b.attempts)
-        return a.attempts - b.attempts;
+      if (a.attempts > b.attempts) {
+        return 1;
+      } else if (a.attempts < b.attempts) {
+        return -1;
+      }
 
-      if (a.time > b.time)
-        return a.time - b.time;
+      if (a.time > b.time) {
+        return 1;
+      } else if (a.time < b.time) {
+        return -1;
+      }
+
     });
 
     for (var i = 0; i < highscore.length; i++) {
       highscore[i].time = moment(highscore[i].time).format('MMMM Do YYYY, h:mm:ss a');
     }
+    
     res.send(highscore);
   });
 });
@@ -110,11 +118,11 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
         userScore.push(data.val());
     });
     userScore.sort(function(a, b) {
-      if (a.attempts > b.attempts)
-        return a.attempts - b.attempts;
-
       if (a.time > b.time)
         return a.time - b.time;
+
+      if (a.attempts > b.attempts)
+        return a.attempts - b.attempts;
     });
 
     for (var i = 0; i < userScore.length; i++) {
