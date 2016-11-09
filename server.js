@@ -6,6 +6,7 @@ var GithubStrategy = require('passport-github').Strategy;
 var path = require('path');
 var dotenv = require('dotenv').config();
 var firebase = require('firebase');
+var moment = require('moment');
 var userJson = "";
 
 firebase.initializeApp({
@@ -111,8 +112,9 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
 
 app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
-  var date = new Date()
-  var currentDate = date.toISOString();
+  var date = new Date();
+  var currentDate = moment(date.toISOString()).format('MMMM Do YYYY, h:mm:ss a');
+
     var scoreData = {
       attempts: attempts,
       name: req.user.displayName,
