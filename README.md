@@ -28,7 +28,7 @@ You will need the following things properly installed on your computer.
 (Note: This app uses Express! The steps below will help you load this app!)
 
 * `gulp build`
-* Open a new tab, and execute the command `node server js` (Keep this tab open)
+* Open a new tab (Alt + T for Mac, have to open a new terminal window for Windows using "start cmd .exe"), and execute the command `node server js` (Keep this tab open)
 * Visit your app at [http://localhost:30000](http://localhost:30000).
 
 ## Specs
