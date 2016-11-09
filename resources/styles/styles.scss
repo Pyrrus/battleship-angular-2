@@ -113,6 +113,7 @@ body{
       background-color: $map-color;
       &:hover{
         background-color: $navy-blue;
+        color: white;
       }
     }
     #ships{
