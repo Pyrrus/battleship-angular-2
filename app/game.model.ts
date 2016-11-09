@@ -400,7 +400,6 @@ fire(row: number,col: number): String{
           this.carrierSunk = true;
         }
         if (this.hitShip === 17) {
-          setTimeout(function(){ alert("you win"); }, 10);
           this.gameCompleted = true;
         }
         return "sunk";

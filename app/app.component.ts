@@ -160,6 +160,7 @@ export class AppComponent {
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
   	    this.win();
+        setTimeout(function(){ alert("you win"); }, 10);
   	  }
     }
   }
