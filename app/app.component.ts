@@ -26,15 +26,17 @@ import {Observable} from 'rxjs/Rx';
 
       <div *ngIf = "hideHigh">
       	<div class="well">
+      	 <h2>Highscore for the battleship</h2>
       	 <ol>
-      	 	<li *ngFor = "let highScore of highScore">Attempts: {{highScore.attempts}} by {{highScore.name}}</li>
+      	 	<li *ngFor = "let highScore of highScore">Attempts: {{highScore.attempts}} by {{highScore.name}} at {{highScore.time}}</li>
       	 </ol>
       	</div>
       </div>
       <div *ngIf = "hideUser">
       	<div class="well">
+      	<h2>{{user.displayName}} score for the battleship</h2>
       	 <ol>
-      	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}}</li>
+      	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}} at {{userScore.time}}</li>
       	 </ol>
       	</div>
       </div>
@@ -78,6 +80,13 @@ import {Observable} from 'rxjs/Rx';
           </td>
         </tr>
       </table>
+      <br>
+      <button *ngIf= "!hideHigh" class="btn pull-left" (click)="showHigh()">Show Highscore</button>
+      <button *ngIf= "hideHigh" class="btn pull-left" (click)="closeHigh()">Close Highscore</button>
+      <span *ngIf = "data.login == true">
+	      <button *ngIf= "!hideUser" class="btn pull-right" (click)="showUser()">Show User Score</button>
+	      <button *ngIf= "hideUser" class="btn pull-right" (click)="closeUser()">Close User Score</button>
+      </span>
     </div>
     <div class= "well" id="score-board">
     <div class="well" id="ships" align="center">
@@ -113,14 +122,6 @@ import {Observable} from 'rxjs/Rx';
     </div>
       <button class="btn" (click)="newGame()">New Game</button><br><br>
       <button class="btn" (click)="useAI()">Use AI</button>
-      <br><br>
-      <button *ngIf= "!hideHigh" class="btn" (click)="showHigh()">Show Highscore</button>
-      <button *ngIf= "hideHigh" class="btn" (click)="closeHigh()">Close Highscore</button>
-      <div *ngIf = "data.login == true">
-      	  <br />
-	      <button *ngIf= "!hideUser" class="btn" (click)="showUser()">Show User Score</button>
-	      <button *ngIf= "hideUser" class="btn" (click)="closeUser()">Close User Score</button>
-      </div>
     </div>
   </div>
   `
