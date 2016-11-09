@@ -34,7 +34,6 @@ export class Game{
     var move:Move = null;
     var lastRandomMove:Move = null;
     var fireResult:String;
-    var possibleRogueShipMoves:Move [];
     var id = setInterval(()=>{
       if(strategy === "clockwise"){
       for (let i = 0; i < 4; i++) {
@@ -253,15 +252,14 @@ export class Game{
            for (var col: number = 0; col< this.boardColumns; col++) {
             if (this.board[row][col].hit && !this.board[row][col].sunk) {
               console.log("found un-sunken ship at row: " + row + " col: " + col);
-              possibleRogueShipMoves.push(new Move(row,col));
+              move = new Move(row,col);
+              lastRandomMove = move;
               strategy = "clockwise";
               direction = Math.floor(Math.random() * 4);
               break;
             }
           }
         }
-        move = possibleRogueShipMoves[Math.floor(Math.random()*possibleRogueShipMoves.length)];
-        possibleRogueShipMoves = [];
         if (strategy === "random") {
           var badGuess:boolean = false;
           do{
@@ -288,9 +286,6 @@ export class Game{
 
   legalMove(row: number,col: number): boolean{
     if(row >= 0 && row <= 9 && col >= 0 && col <= 9){
-      if(this.board[row][col].sunk || this.board[row][col].miss || this.board[row][col].hit){
-        return false;
-      }
       return true;
     }else{
       return false;
