@@ -74,9 +74,6 @@ import {Observable} from 'rxjs/Rx';
                   Rank
                 </th>
                 <th>
-                  Name
-                </th>
-                <th>
                   Attempts
                 </th>
                 <th>
@@ -88,9 +85,6 @@ import {Observable} from 'rxjs/Rx';
               <tr *ngFor = "let userScore of userScore; let i = index">
                 <td>
                   {{i + 1}}
-                </td>
-                <td>
-                  {{userScore.name}}
                 </td>
                 <td>
                   {{userScore.attempts}}

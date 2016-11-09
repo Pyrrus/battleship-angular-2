@@ -118,11 +118,17 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
         userScore.push(data.val());
     });
     userScore.sort(function(a, b) {
-      if (a.time > b.time)
-        return a.time - b.time;
+      if (a.attempts > b.attempts) {
+        return 1;
+      } else if (a.attempts < b.attempts) {
+        return -1;
+      }
 
-      if (a.attempts > b.attempts)
-        return a.attempts - b.attempts;
+      if (a.time > b.time) {
+        return 1;
+      } else if (a.time < b.time) {
+        return -1;
+      }
     });
 
     for (var i = 0; i < userScore.length; i++) {
