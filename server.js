@@ -85,10 +85,17 @@ app.get('/highscore', function(req, res) {
     snapshot.forEach(function(data) {
      highscore.push(data.val());
     });
-    hightscore = JSON.stringify(highscore);
     highscore.sort(function(a, b) {
-      return a.attempts - b.attempts;
-    })
+      if (a.attempts > b.attempts)
+        return a.attempts - b.attempts;
+
+      if (a.time < b.time)
+        return b.time - a.time;
+    });
+
+    for (var i = 0; i < highscore.length; i++) {
+      highscore[i].time = moment(highscore[i].time).format('MMMM Do YYYY, h:mm:ss a');
+    }
     res.send(highscore);
   });
 });
@@ -102,10 +109,18 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
       if (data.val().gitID == req.user.id)
         userScore.push(data.val());
     });
-    hightscore = JSON.stringify(userScore);
     userScore.sort(function(a, b) {
-      return a.attempts - b.attempts;
-    })
+      if (a.attempts > b.attempts)
+        return a.attempts - b.attempts;
+
+      if (a.time < b.time)
+        return b.time - a.time;
+    });
+
+    for (var i = 0; i < userScore.length; i++) {
+      userScore[i].time = moment(userScore[i].time).format('MMMM Do YYYY, h:mm:ss a');
+    }
+
     res.send(userScore);
   });
 });
@@ -113,8 +128,7 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
 app.post('/savescore', ensureAuthenticated, function(req, res){
   var attempts =req.query['attempts'];
   var date = new Date();
-  var currentDate = moment(date.toISOString()).format('MMMM Do YYYY, h:mm:ss a');
-
+  var currentDate = date.getTime();
     var scoreData = {
       attempts: attempts,
       name: req.user.displayName,
