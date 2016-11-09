@@ -27,11 +27,18 @@ import {Observable} from 'rxjs/Rx';
       <div *ngIf = "hideHigh">
       	<div class="well">
       	 <ol>
-      	 	<li *ngFor = "let highScore of highScore">{{highScore.attempts}} by {{highScore.name}}</li>
+      	 	<li *ngFor = "let highScore of highScore">Attempts: {{highScore.attempts}} by {{highScore.name}}</li>
       	 </ol>
       	</div>
       </div>
-      <table *ngIf = "!hideHigh" id="game-board" class="table-responsive" align="center">
+      <div *ngIf = "hideUser">
+      	<div class="well">
+      	 <ol>
+      	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}}</li>
+      	 </ol>
+      	</div>
+      </div>
+      <table *ngIf = "!hideHigh && !hideUser" id="game-board" class="table-responsive" align="center">
         <tr>
           <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
           <td align="center" *ngFor="let foo of dummyArray; let index = index"
@@ -107,7 +114,13 @@ import {Observable} from 'rxjs/Rx';
       <button class="btn" (click)="newGame()">New Game</button><br><br>
       <button class="btn" (click)="useAI()">Use AI</button>
       <br><br>
-      <button class="btn" (click)="showHigh()">show Highscore</button>
+      <button *ngIf= "!hideHigh" class="btn" (click)="showHigh()">Show Highscore</button>
+      <button *ngIf= "hideHigh" class="btn" (click)="closeHigh()">Close Highscore</button>
+      <div *ngIf = "data.login == true">
+      	  <br />
+	      <button *ngIf= "!hideUser" class="btn" (click)="showUser()">Show User Score</button>
+	      <button *ngIf= "hideUser" class="btn" (click)="closeUser()">Close User Score</button>
+      </div>
     </div>
   </div>
   `
@@ -127,10 +140,23 @@ export class AppComponent {
   public hideUser = false;
   fire(row: number,col: number){
     // TODO put logic to test return value of fire method and play correct sound (fire returns "sunk", "hit", or "miss")
+    var x = this.myGame.fire(row,col);
+    if(x === "miss") {
+      this.audio.src = "../../resources/sounds/splash.mp3";
+      this.audio.play();
+    }else if(x === "sunk" && this.myGame.gameCompleted === false){
+      this.audio.src = "../../resources/sounds/explosion.mp3";
+      this.audio.play();
+    }else if(x === "hit"){
+      this.audio.src = "../../resources/sounds/torpedo.wav";
+      this.audio.play();
+    }else if (this.myGame.gameCompleted === true) {
+      this.audio.src = "../../resources/sounds/winner.mp3"; //does not play winner sound :(
+      this.audio.play();
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
-
+}
   if (this.myGame.hitShip === 17) {
       this.win();
     }
@@ -151,13 +177,27 @@ export class AppComponent {
 	          });
   	}
   }
+  closeHigh() {
+  	this.hideHigh = false;
+  }
+  closeUser() {
+  	this.hideUser = false;
+  }
   showHigh() {
   	this.http.request('/highscore')
 	      .subscribe((res: Response) => {
-	        this.highScore = res.json();
+	        this.highScore = res.json(),
+	        this.hideHigh = true
 	  });
-  	this.hideHigh = true;
-
+	  this.hideUser = false;
+  }
+  showUser() {
+  	this.http.request('/userscore')
+	      .subscribe((res: Response) => {
+	        this.userScore = res.json(),
+	        this.hideUser = true
+	  });
+	 this.hideHigh = false;
   }
   newGame(){
     this.myGame = new Game(10,10);
@@ -177,16 +217,6 @@ export class AppComponent {
       this.http.request('/user')
 	      .subscribe((res: Response) => {
 	        this.user = res.json();
-	  });
-
-	  this.http.request('/highscore')
-	      .subscribe((res: Response) => {
-	        this.highScore = res.json();
-	  });
-
-	  this.http.request('/userscore')
-	      .subscribe((res: Response) => {
-	        this.userScore = res.json();
 	  });
   }
 }
