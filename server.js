@@ -89,8 +89,8 @@ app.get('/highscore', function(req, res) {
       if (a.attempts > b.attempts)
         return a.attempts - b.attempts;
 
-      if (a.time < b.time)
-        return b.time - a.time;
+      if (a.time > b.time)
+        return a.time - b.time;
     });
 
     for (var i = 0; i < highscore.length; i++) {
@@ -113,8 +113,8 @@ app.get('/userscore', ensureAuthenticated, function(req, res) {
       if (a.attempts > b.attempts)
         return a.attempts - b.attempts;
 
-      if (a.time < b.time)
-        return b.time - a.time;
+      if (a.time > b.time)
+        return a.time - b.time;
     });
 
     for (var i = 0; i < userScore.length; i++) {
