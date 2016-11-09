@@ -138,15 +138,15 @@ export class AppComponent {
       this.audio.src = "../../resources/sounds/torpedo.wav";
       this.audio.play();
     }else if (this.myGame.gameCompleted === true) {
-      this.audio.src = "../../resources/sounds/winner.mp3";
+      this.audio.src = "../../resources/sounds/winner.mp3"; //does not play winner sound :(
       this.audio.play();
     this.myGame.fire(row,col);
     this.audio.src = "../../resources/sounds/torpedo.wav";
     this.audio.play();
 }
-  // if (this.myGame.hitShip === 17) {
-  //     this.win();
-  //   }
+  if (this.myGame.hitShip === 17) {
+      this.win();
+    }
   }
   win() {
   	if (this.data.login) {
