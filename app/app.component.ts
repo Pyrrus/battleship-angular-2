@@ -142,21 +142,23 @@ export class AppComponent {
   public hideHigh = false;
   public hideUser = false;
   fire(row: number,col: number){
-    var x = this.myGame.fire(row,col);
-    if(x === "miss") {
-      this.audio.src = "../../resources/sounds/splash.mp3";
-      this.audio.play();
-    }else if(x === "sunk" && this.myGame.gameCompleted === false){
-      this.audio.src = "../../resources/sounds/explosion.mp3";
-      this.audio.play();
-    }else if(x === "hit"){
-      this.audio.src = "../../resources/sounds/torpedo.wav";
-      this.audio.play();
-    }else if (this.myGame.gameCompleted === true) {
-      this.audio.src = "../../resources/sounds/winner.mp3";
-      this.audio.play();
-	  this.win();
-	}
+    if(!this.myGame.gameCompleted){
+      var x = this.myGame.fire(row,col);
+      if(x === "miss") {
+        this.audio.src = "../../resources/sounds/splash.mp3";
+        this.audio.play();
+      }else if(x === "sunk" && !this.myGame.gameCompleted){
+        this.audio.src = "../../resources/sounds/explosion.mp3";
+        this.audio.play();
+      }else if(x === "hit"){
+        this.audio.src = "../../resources/sounds/torpedo.wav";
+        this.audio.play();
+      }else if (this.myGame.gameCompleted) {
+        this.audio.src = "../../resources/sounds/winner.mp3";
+        this.audio.play();
+  	    this.win();
+  	  }
+    }
   }
   win() {
   	if (this.data.login) {
