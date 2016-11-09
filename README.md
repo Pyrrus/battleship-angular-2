@@ -1,6 +1,6 @@
 ![banner](https://github.com/Pyrrus/battleship-angular-2/blob/master/resources/img/Banner.png)
 
-#### _Battleship, USS Epicodus, November 7th-November 10th 2016_
+#### _The Legend of Battleship, November 7th-November 10th 2016_
 
 #### By _Amber Farrington, Yusuf Qedan, Jonathan Toler, and Adam Gorbahn_
 
@@ -19,7 +19,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd ember-msg`
+* `cd <repository-url>`
 * `npm install`
 * `bower install`
 
@@ -53,6 +53,7 @@ You will need the following things properly installed on your computer.
 
 * Example Input: Player can let the AI playout games by pressing the 'use AI' button.
 * Example Output: The AI will keep playing games, from which the player can view. 
+
 ### License
 
 *This application is licensed under the MIT license*
