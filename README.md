@@ -6,7 +6,7 @@
 
 ## Description
 
-_This app is a Battleship game using the Angular 2 framework! Play against another person or play against the computer! "You Sunk my Battleship!"_
+_This app is a Battleship game using the Angular 2 framework! Play against another person or watch the AI play! "You Sunk my Battleship!"_
 
 ## Prerequisites
 
