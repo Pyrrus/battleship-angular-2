@@ -80,7 +80,7 @@ app.get('/', function(req, res) {
 app.get('/highscore', function(req, res) {
   var highscore = [];
   var scoresRef = db.ref("scores");
-  scoresRef.orderByValue().on("value", function(snapshot) {
+  scoresRef.orderByValue().once("value", function(snapshot) {
     snapshot.forEach(function(data) {
      highscore.push(data.val());
     });
@@ -96,7 +96,7 @@ app.get('/highscore', function(req, res) {
 app.get('/userscore', ensureAuthenticated, function(req, res) {
   var userScore = [];
   var scoresRef = db.ref("scores");
-  scoresRef.orderByValue().on("value", function(snapshot) {
+  scoresRef.orderByValue().once("value", function(snapshot) {
     snapshot.forEach(function(data) {
       if (data.val().gitID == req.user.id)
         userScore.push(data.val());
