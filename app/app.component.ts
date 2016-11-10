@@ -27,24 +27,87 @@ import {Observable} from 'rxjs/Rx';
       </audio>
 
     <div class="well" id="map-well">
-
+<div class="well" id="map-well">
       <div *ngIf = "hideHigh">
-      	<div class="well">
-      	 <h2>Highscore for the battleship</h2>
-      	 <ol>
-      	 	<li *ngFor = "let highScore of highScore">Attempts: {{highScore.attempts}} by {{highScore.name}} at {{highScore.time}}</li>
-      	 </ol>
-      	</div>
+        <div class="well">
+         <h2>Highscore for the battleship</h2>
+         <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>
+                  Rank
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Attempts
+                </th>
+                <th>
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let highScore of highScore; let i = index">
+                <td>
+                  {{i + 1}}
+                </td>
+                <td>
+                  {{highScore.name}}
+                </td>
+                <td>
+                  {{highScore.attempts}}
+                </td>
+                <td>
+                  {{highScore.time}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div *ngIf = "hideUser">
-      	<div class="well">
-      	<h2>{{user.displayName}} score for the battleship</h2>
+        <div class="well">
+        <h2>{{user.displayName}} score for the battleship</h2>
         <h3>Hit ratio: {{userScore | avg }}%</h3>
-      	 <ol>
-      	 	<li *ngFor = "let userScore of userScore">Attempts: {{userScore.attempts}} by {{userScore.name}} at {{userScore.time}}</li>
-      	 </ol>
-      	</div>
+         <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>
+                  Rank
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Attempts
+                </th>
+                <th>
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let userScore of userScore; let i = index">
+                <td>
+                  {{i + 1}}
+                </td>
+                <td>
+                  {{userScore.name}}
+                </td>
+                <td>
+                  {{userScore.attempts}}
+                </td>
+                <td>
+                  {{userScore.time}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+      
       <table *ngIf = "!hideHigh && !hideUser" id="game-board" class="table-responsive" align="center">
         <tr>
           <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
