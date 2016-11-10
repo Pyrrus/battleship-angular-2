@@ -151,16 +151,16 @@ export class AppComponent {
   fire(row: number,col: number){
     if(!this.myGame.gameCompleted){
       var x = this.myGame.fire(row,col);
-      if(x === "miss") {
+      if(x.status === "miss" && !x.repeatMove) {
         this.audio.src = "../../resources/sounds/splash.mp3";
         this.audio.play();
-      }else if(x === "sunk" && !this.myGame.gameCompleted){
+      }else if(x.status === "sunk" && !this.myGame.gameCompleted && !x.repeatMove){
         this.audio.src = "../../resources/sounds/explosion.mp3";
         this.audio.play();
-      }else if(x === "hit"){
+      }else if(x.status === "hit" && !x.repeatMove){
         this.audio.src = "../../resources/sounds/torpedo.wav";
         this.audio.play();
-      }else if (this.myGame.gameCompleted) {
+      }else if (this.myGame.gameCompleted && !x.repeatMove) {
         this.audio.src = "../../resources/sounds/winner.mp3";
         this.audio.play();
         var that = this;

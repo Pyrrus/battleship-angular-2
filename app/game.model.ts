@@ -43,7 +43,7 @@ export class Game{
               direction = 1;
             }else{
               console.log("firing left row: " + move.row + "col: " + move.col);
-              fireResult = this.fire(move.row,move.col-1);
+              fireResult = this.fire(move.row,move.col-1).status;
               if (fireResult === "hit") {
                 move = new Move(move.row,move.col-1);
                 strategy = "lengthwise";
@@ -60,7 +60,7 @@ export class Game{
               direction = 2;
             }else{
               console.log("firing up row: " + move.row + "col: " + move.col);
-              fireResult = this.fire(move.row-1,move.col);
+              fireResult = this.fire(move.row-1,move.col).status;
               if (fireResult === "hit") {
                 move = new Move(move.row-1,move.col);
                 strategy = "lengthwise";
@@ -77,7 +77,7 @@ export class Game{
               direction = 3;
             }else{
               console.log("firing right row: " + move.row + "col: " + move.col);
-              fireResult = this.fire(move.row,move.col+1);
+              fireResult = this.fire(move.row,move.col+1).status;
               if (fireResult === "hit") {
                 move = new Move(move.row,move.col+1);
                 strategy = "lengthwise";
@@ -94,7 +94,7 @@ export class Game{
               direction = 0;
             }else{
               console.log("firing down row: " + move.row + "col: " + move.col);
-              fireResult = this.fire(move.row+1,move.col);
+              fireResult = this.fire(move.row+1,move.col).status;
               if (fireResult === "hit") {
                 move = new Move(move.row+1,move.col);
                 strategy = "lengthwise";
@@ -117,7 +117,7 @@ export class Game{
             direction = 2;
           }else{
             console.log("firing left lengthwise row: " + move.row + "col: " + move.col);
-            fireResult = this.fire(move.row,move.col-1);
+            fireResult = this.fire(move.row,move.col-1).status;
             if (fireResult === "hit") {
               move = new Move(move.row,move.col-1);
             }else if(fireResult === "miss"){
@@ -135,7 +135,7 @@ export class Game{
             direction = 3;
           }else{
             console.log("firing up lengthwise row: " + move.row + "col: " + move.col);
-            fireResult = this.fire(move.row-1,move.col);
+            fireResult = this.fire(move.row-1,move.col).status;
             if (fireResult === "hit") {
               move = new Move(move.row-1,move.col);
             }else if(fireResult === "miss"){
@@ -153,7 +153,7 @@ export class Game{
             direction = 0;
           }else{
             console.log("firing right lengthwise row: " + move.row + "col: " + move.col);
-            fireResult = this.fire(move.row,move.col+1);
+            fireResult = this.fire(move.row,move.col+1).status;
             if (fireResult === "hit") {
               move = new Move(move.row,move.col+1);
             }else if(fireResult === "miss"){
@@ -171,7 +171,7 @@ export class Game{
             direction = 1;
           }else{
             console.log("firing down lengthwise");
-            fireResult = this.fire(move.row+1,move.col);
+            fireResult = this.fire(move.row+1,move.col).status;
             if (fireResult === "hit") {
               move = new Move(move.row+1,move.col);
             }else if(fireResult === "miss"){
@@ -191,7 +191,7 @@ export class Game{
             strategy = "random";
           }else{
             console.log("firing left");
-            fireResult = this.fire(move.row,move.col-1);
+            fireResult = this.fire(move.row,move.col-1).status;
             if (fireResult === "hit") {
               move = new Move(move.row,move.col-1);
             }else if(fireResult === "miss"){
@@ -206,7 +206,7 @@ export class Game{
             strategy = "random";
           }else{
             console.log("firing up");
-            fireResult = this.fire(move.row-1,move.col);
+            fireResult = this.fire(move.row-1,move.col).status;
             if (fireResult === "hit") {
               move = new Move(move.row-1,move.col);
             }else if(fireResult === "miss"){
@@ -221,7 +221,7 @@ export class Game{
             strategy = "random";
           }else{
             console.log("firing right");
-            fireResult = this.fire(move.row,move.col+1);
+            fireResult = this.fire(move.row,move.col+1).status;
             if (fireResult === "hit") {
               move = new Move(move.row,move.col+1);
             }else if(fireResult === "miss"){
@@ -236,7 +236,7 @@ export class Game{
             strategy = "random";
           }else{
             console.log("firing down");
-            fireResult = this.fire(move.row+1,move.col);
+            fireResult = this.fire(move.row+1,move.col).status;
             if (fireResult === "hit") {
               move = new Move(move.row+1,move.col);
             }else if(fireResult === "miss"){
@@ -268,7 +268,7 @@ export class Game{
             badGuess = this.badMove(randRow,randCol);
           }while(badGuess || this.board[randRow][randCol].hit === true ||
                              this.board[randRow][randCol].miss === true)
-          if(this.fire(randRow,randCol) === "hit") {
+          if(this.fire(randRow,randCol).status === "hit") {
             strategy = "clockwise";
             direction = Math.floor(Math.random() * 4);
             move = new Move(randRow,randCol);
@@ -281,7 +281,7 @@ export class Game{
         this.useAI();
         clearInterval(id);
       }
-    },1000);
+    },1);
   }
 
   legalMove(row: number,col: number): boolean{
@@ -357,16 +357,23 @@ export class Game{
     return false;
   }
 
-fire(row: number,col: number): String{
+fire(row: number,col: number){
+  var rv = {
+    status: "",
+    repeatMove: false
+  };
   var selectedSquare:Square = this.board[row][col];
   if (this.gameCompleted) {
-    return "complete";
+    rv.status = "complete";
+    return rv;
   }
   if (selectedSquare.hit === false && selectedSquare.miss === false){
     this.attempts++;
     if (selectedSquare.ship === true) {
       this.hitShip++;
     }
+  }else{
+    rv.repeatMove = true;
   }
   var sunkCounter:number = 0;
   var sunkBuffer:String[] = [];
@@ -402,14 +409,17 @@ fire(row: number,col: number): String{
         if (this.hitShip === 17) {
           this.gameCompleted = true;
         }
-        return "sunk";
+        rv.status = "sunk";
+        return rv;
       }
-      return "hit";
+      rv.status = "hit";
+      return rv;
     }
     else {
       this.board[row][col].miss = true;
     }
-    return "miss";
+    rv.status = "miss";
+    return rv;
   }
 
   generateShip(id:number,size:number){
