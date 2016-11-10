@@ -26,7 +26,7 @@ import {Observable} from 'rxjs/Rx';
         <source src="../../resources/sounds/GreatSeaWW.mp3" type="audio/mp3">
       </audio>
 
-    <div class="well" id="map-well">
+
 <div class="well" id="map-well">
       <div *ngIf = "hideHigh">
         <div class="well">
@@ -107,7 +107,6 @@ import {Observable} from 'rxjs/Rx';
           </table>
         </div>
       </div>
-      
       <table *ngIf = "!hideHigh && !hideUser" id="game-board" class="table-responsive" align="center">
         <tr>
           <td [class.border]="true" align="center"><span class="glyphicon glyphicon glyphicon-star" aria-hidden="true"></span></td>
@@ -193,7 +192,7 @@ import {Observable} from 'rxjs/Rx';
     </div>
   </div>
   <div class="container" id="license">
-  <p><strong>The music and images are originally licensed by Nintendo. The images are digitally vectored re-creations of the original game art for Legend of Zelda: Wind Waker. This game and the media are being used for educational purposes only! Enjoy the game!</strong></p>
+    <p><strong>The music and images are originally licensed by Nintendo. The images are digitally vectored re-creations of the original game art for Legend of Zelda: Wind Waker. This game and the media are being used for educational purposes only! Enjoy the game!</strong></p>
   </div>
   `
 })
